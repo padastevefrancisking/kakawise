@@ -32,7 +32,7 @@ import 'dart:ui';
 import 'cacao_variety.dart';
 
 /// Minimum confidence to keep a detection.
-const double kConfidenceThreshold = 0.70;
+const double kConfidenceThreshold = 0.90;
 
 /// Holds the annotated image bytes returned by the plugin (JPEG with masks drawn).
 /// This is set once per inference call and shared across all detections.

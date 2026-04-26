@@ -73,7 +73,7 @@ class ResultScreen extends StatelessWidget {
                   bottom: 10, left: 14,
                   child: Text(
                     '${inferenceResponse.detections.length} pod${inferenceResponse.detections.length != 1 ? 's' : ''} detected',
-                    style: GoogleFonts.dmSans(fontSize: 12, color: Colors.white70),
+                    style: GoogleFonts.inter(fontSize: 12, color: Colors.white70),
                   ),
                 ),
                 Positioned(
@@ -95,11 +95,11 @@ class ResultScreen extends StatelessWidget {
 
                 // Name + registration
                 Text(variety.name,
-                    style: GoogleFonts.dmSerifDisplay(
+                    style: GoogleFonts.inter(fontWeight: FontWeight.w700,
                         fontSize: 28, color: KakaWiseTheme.textPrimary)),
                 const SizedBox(height: 2),
                 Text(variety.registrationNo,
-                    style: GoogleFonts.dmSans(
+                    style: GoogleFonts.inter(
                         fontSize: 12,
                         color: KakaWiseTheme.textSecondary)),
                 const SizedBox(height: 10),
@@ -180,7 +180,7 @@ class ResultScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 _InfoCard(
                   child: Text(variety.description,
-                      style: GoogleFonts.dmSans(
+                      style: GoogleFonts.inter(
                           fontSize: 13,
                           color: KakaWiseTheme.textPrimary,
                           height: 1.6)),
@@ -196,10 +196,10 @@ class ResultScreen extends StatelessWidget {
                     Expanded(
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Text('Owner / Institution',
-                            style: GoogleFonts.dmSans(
+                            style: GoogleFonts.inter(
                                 fontSize: 10, color: KakaWiseTheme.textSecondary)),
                         Text(variety.owner,
-                            style: GoogleFonts.dmSans(
+                            style: GoogleFonts.inter(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 color: KakaWiseTheme.textPrimary)),
@@ -220,7 +220,7 @@ class ResultScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12)),
                     padding: const EdgeInsets.symmetric(vertical: 13),
                     textStyle:
-                    GoogleFonts.dmSans(fontSize: 14, fontWeight: FontWeight.w600),
+                    GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
                   ),
                 ),
               ]),
@@ -245,7 +245,7 @@ class _SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       Text(label,
-          style: GoogleFonts.dmSans(
+          style: GoogleFonts.inter(
               fontSize: 11,
               fontWeight: FontWeight.w700,
               color: KakaWiseTheme.textSecondary,
@@ -304,11 +304,11 @@ class _SectionHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Average Pod Index (API)',
-                      style: GoogleFonts.dmSerifDisplay(
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w700,
                           fontSize: 18, color: KakaWiseTheme.textPrimary)),
                   const SizedBox(height: 10),
                   Text(tooltip!,
-                      style: GoogleFonts.dmSans(
+                      style: GoogleFonts.inter(
                           fontSize: 13,
                           color: KakaWiseTheme.textPrimary,
                           height: 1.6)),
@@ -325,7 +325,7 @@ class _SectionHeader extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       child: Text('Got it',
-                          style: GoogleFonts.dmSans(
+                          style: GoogleFonts.inter(
                               fontWeight: FontWeight.w600,
                               color: KakaWiseTheme.primary)),
                     ),
@@ -366,10 +366,10 @@ class _NsicCard extends StatelessWidget {
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('Registration No.',
-                  style: GoogleFonts.dmSans(
+                  style: GoogleFonts.inter(
                       fontSize: 9, color: KakaWiseTheme.textSecondary)),
               Text(variety.registrationNo,
-                  style: GoogleFonts.dmSans(
+                  style: GoogleFonts.inter(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                       color: KakaWiseTheme.textPrimary)),
@@ -391,7 +391,7 @@ class _NsicCard extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               Text(variety.nsicStatus,
-                  style: GoogleFonts.dmSans(
+                  style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: statusColor)),
@@ -405,7 +405,7 @@ class _NsicCard extends StatelessWidget {
           const SizedBox(width: 6),
           Expanded(
             child: Text(variety.owner,
-                style: GoogleFonts.dmSans(
+                style: GoogleFonts.inter(
                     fontSize: 12,
                     color: KakaWiseTheme.textSecondary)),
           ),
@@ -435,7 +435,7 @@ class _ApiCard extends StatelessWidget {
         Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
           Text(
             hasData ? variety.averagePodIndex.toStringAsFixed(2) : 'N.A.',
-            style: GoogleFonts.dmSerifDisplay(
+            style: GoogleFonts.inter(fontWeight: FontWeight.w700,
                 fontSize: 36, color: KakaWiseTheme.textPrimary),
           ),
           if (hasData) ...[
@@ -443,7 +443,7 @@ class _ApiCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 6),
               child: Text('pods / kg dry beans',
-                  style: GoogleFonts.dmSans(
+                  style: GoogleFonts.inter(
                       fontSize: 11, color: KakaWiseTheme.textSecondary)),
             ),
           ],
@@ -458,7 +458,7 @@ class _ApiCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(variety.podIndexRating,
-                style: GoogleFonts.dmSans(
+                style: GoogleFonts.inter(
                     fontSize: 10, fontWeight: FontWeight.w700, color: color)),
           ),
           const SizedBox(height: 10),
@@ -474,15 +474,15 @@ class _ApiCard extends StatelessWidget {
           const SizedBox(height: 4),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text('High (> 30 pods)',
-                style: GoogleFonts.dmSans(
+                style: GoogleFonts.inter(
                     fontSize: 9, color: KakaWiseTheme.textSecondary)),
             Text('Good (< 15 pods)',
-                style: GoogleFonts.dmSans(
+                style: GoogleFonts.inter(
                     fontSize: 9, color: KakaWiseTheme.textSecondary)),
           ]),
         ] else
           Text('No data available for this clone.',
-              style: GoogleFonts.dmSans(
+              style: GoogleFonts.inter(
                   fontSize: 12, color: KakaWiseTheme.textSecondary)),
       ]),
     );
@@ -552,11 +552,11 @@ class _BigStat extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(label,
-            style: GoogleFonts.dmSans(
+            style: GoogleFonts.inter(
                 fontSize: 10, color: KakaWiseTheme.textSecondary)),
         const SizedBox(height: 2),
         Text(value,
-            style: GoogleFonts.dmSerifDisplay(
+            style: GoogleFonts.inter(fontWeight: FontWeight.w700,
                 fontSize: 20, color: KakaWiseTheme.textPrimary)),
       ]),
     );
@@ -590,10 +590,10 @@ class _ColorChip extends StatelessWidget {
         Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(label,
-                style: GoogleFonts.dmSans(
+                style: GoogleFonts.inter(
                     fontSize: 9, color: KakaWiseTheme.textSecondary)),
             Text(value,
-                style: GoogleFonts.dmSans(
+                style: GoogleFonts.inter(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                     color: KakaWiseTheme.textPrimary),
@@ -627,12 +627,12 @@ class _TwoColCard extends StatelessWidget {
                     Icon(e.$3, size: 13, color: KakaWiseTheme.textSecondary),
                     const SizedBox(width: 5),
                     Text(e.$1,
-                        style: GoogleFonts.dmSans(
+                        style: GoogleFonts.inter(
                             fontSize: 10, color: KakaWiseTheme.textSecondary)),
                   ]),
                   const SizedBox(height: 3),
                   Text(e.$2,
-                      style: GoogleFonts.dmSans(
+                      style: GoogleFonts.inter(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: KakaWiseTheme.textPrimary)),
@@ -672,7 +672,7 @@ class _ResistanceCard extends StatelessWidget {
           return Column(children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(r.$1,
-                  style: GoogleFonts.dmSans(
+                  style: GoogleFonts.inter(
                       fontSize: 13, color: KakaWiseTheme.textPrimary)),
               _ResistancePill(level: r.$2, fallbackColor: color),
             ]),
@@ -716,7 +716,7 @@ class _ResistancePill extends StatelessWidget {
       decoration: BoxDecoration(
           color: bg, borderRadius: BorderRadius.circular(20)),
       child: Text(level,
-          style: GoogleFonts.dmSans(
+          style: GoogleFonts.inter(
               fontSize: 11, fontWeight: FontWeight.w600, color: fg)),
     );
   }
@@ -747,7 +747,7 @@ class _CharacteristicsCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(c,
-                    style: GoogleFonts.dmSans(
+                    style: GoogleFonts.inter(
                         fontSize: 13,
                         color: KakaWiseTheme.textPrimary,
                         height: 1.5)),
@@ -796,20 +796,20 @@ class _ConfidenceCard extends StatelessWidget {
                           color: barColor,
                           borderRadius: BorderRadius.circular(4)),
                       child: Text('TOP',
-                          style: GoogleFonts.dmSans(
+                          style: GoogleFonts.inter(
                               fontSize: 8,
                               fontWeight: FontWeight.w800,
                               color: Colors.white)),
                     ),
                   Text(v?.name ?? e.key,
-                      style: GoogleFonts.dmSans(
+                      style: GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight:
                           isTop ? FontWeight.w700 : FontWeight.w400,
                           color: KakaWiseTheme.textPrimary)),
                   const Spacer(),
                   Text('${(e.value * 100).toStringAsFixed(1)}%',
-                      style: GoogleFonts.dmSans(
+                      style: GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: isTop
@@ -872,7 +872,7 @@ class _Badge extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(label,
-          style: GoogleFonts.dmSans(
+          style: GoogleFonts.inter(
               fontSize: 10,
               fontWeight: FontWeight.w600,
               color: dark ? Colors.white70 : Colors.white)),
@@ -895,7 +895,7 @@ class _Tag extends StatelessWidget {
         border: Border.all(color: color.withOpacity(0.3), width: 0.5),
       ),
       child: Text(label,
-          style: GoogleFonts.dmSans(
+          style: GoogleFonts.inter(
               fontSize: 11, fontWeight: FontWeight.w600, color: color)),
     );
   }
