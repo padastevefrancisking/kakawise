@@ -39,15 +39,21 @@ Future<Uint8List> renderOverlay({
     sourceImage.height.toDouble(),
   );
 
-  // Draw each detection
-  for (final det in inferenceResponse.detections) {
+  // When the plugin returned an annotated image (masks + boxes already baked in),
+  // only add our numbered labels — skip drawing boxes and masks again.
+  final hasAnnotated = inferenceResponse.annotatedImageBytes != null;
+
+  for (var i = 0; i < inferenceResponse.detections.length; i++) {
+    final det = inferenceResponse.detections[i];
     final variety = getVarietyById(det.classId);
     final color =
     variety != null ? Color(variety.colorHex) : const Color(0xFF1D9E75);
 
-    _drawSegmentation(canvas, size, det, color);
-    _drawBoundingBox(canvas, size, det, color);
-    _drawLabel(canvas, size, det, color);
+    if (!hasAnnotated) {
+      _drawSegmentation(canvas, size, det, color);
+      _drawBoundingBox(canvas, size, det, color);
+    }
+    _drawLabel(canvas, size, det, color, labelNum: i + 1);
   }
 
   final picture = recorder.endRecording();
@@ -142,14 +148,14 @@ void _drawCorners(Canvas canvas, Rect rect, Color color, double strokeW) {
 }
 
 void _drawLabel(
-    Canvas canvas, Size size, DetectionResult det, Color color) {
+    Canvas canvas, Size size, DetectionResult det, Color color, {int labelNum = 1}) {
   final b = det.boundingBox;
   final left = b.left * size.width;
   final top = b.top * size.height;
 
   final fontSize = math.max(size.width * 0.022, 12.0);
   final label =
-      '${det.yoloTag}  ${(det.confidence * 100).toStringAsFixed(1)}%';
+      '$labelNum · ${det.yoloTag}  ${(det.confidence * 100).toStringAsFixed(1)}%';
 
   final pb = ui.ParagraphBuilder(
     ui.ParagraphStyle(fontSize: fontSize, fontWeight: FontWeight.w700),
