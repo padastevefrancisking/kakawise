@@ -43,4 +43,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/images/
     - assets/models/kakawisev12_seg.onnx

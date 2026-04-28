@@ -1,25 +1,23 @@
 // lib/widgets/detection_overlay.dart
 //
-// ── The double-box problem explained ─────────────────────────────────────────
+// ── Fix for "bbox/mask don't align on non-square images in scan preview" ──────
 //
-// The ultralytics_yolo plugin returns:
-//   'annotatedImage' → JPEG bytes that already have the plugin's OWN bounding
-//                      boxes + segmentation mask drawn on them (blue by default).
+// Root cause:
+//   The scan-screen image area is a 1:1 AspectRatio square container.
+//   Image.memory(..., fit: BoxFit.contain) centres the image inside that square
+//   and adds transparent bars on the short axis — exactly like letterboxing.
+//   Our CustomPainter received `size` = the full square (e.g. 360×360), but the
+//   actual image pixels only occupied a sub-rectangle of that square.
+//   So coordinates like (0.5, 0.5) were mapped to the centre of the SQUARE,
+//   not the centre of the IMAGE CONTENT — causing the overlay to drift.
 //
-// Previously we were ALSO drawing our own purple bounding boxes on top via
-// CustomPainter, producing TWO overlapping boxes per detection.
-// The plugin's segmentation mask was also rendered at its own internal scale
-// so it didn't align with our normalised coordinates.
+// Fix:
+//   Compute the image-content rect inside the square (same math as BoxFit.contain),
+//   then map all normalised coordinates into THAT rect instead of the full square.
+//   This is done in `_imageRect()` and applied in every draw call.
 //
-// ── Fix ───────────────────────────────────────────────────────────────────────
-//
-// When annotatedImageBytes is available:
-//   → Use it as the base image (it has correct segmentation from the model).
-//   → Draw ONLY our numbered circle + label chips on top.
-//   → Do NOT draw boxes or masks (already in the annotated image).
-//
-// When annotatedImageBytes is null (mock / fallback):
-//   → Draw image + our own boxes + masks + numbered labels.
+// Result screen is not affected — it uses the pre-rendered PNG from
+// overlay_renderer.dart which is always at the original image's pixel dimensions.
 
 import 'dart:math' as math;
 import 'dart:typed_data';
@@ -33,7 +31,7 @@ import '../models/detection_result.dart';
 class DetectionOverlay extends StatelessWidget {
   final InferenceResponse inferenceResponse;
 
-  /// EXIF-corrected PNG — used as fallback when no annotatedImage is available.
+  /// EXIF-corrected PNG bytes — pixel dimensions must match the model's origW/origH.
   final Uint8List imageBytes;
 
   const DetectionOverlay({
@@ -44,72 +42,93 @@ class DetectionOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasAnnotated = inferenceResponse.annotatedImageBytes != null;
+    return LayoutBuilder(builder: (context, constraints) {
+      final containerW = constraints.maxWidth;
+      final containerH = constraints.maxHeight;
 
-    // Base image: plugin's annotated JPEG (masks + boxes already drawn)
-    // OR our own EXIF-corrected PNG.
-    final baseImage = hasAnnotated
-        ? Image.memory(
-      inferenceResponse.annotatedImageBytes!,
-      fit: BoxFit.contain,
-      gaplessPlayback: true,
-    )
-        : Image.memory(imageBytes, fit: BoxFit.contain, gaplessPlayback: true);
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        baseImage,
-        CustomPaint(
-          painter: _OverlayPainter(
-            detections: inferenceResponse.detections,
-            // When annotatedImage is present: SKIP drawing boxes and masks —
-            // they are already baked into the annotatedImage.
-            drawBoxes: !hasAnnotated,
-            drawMasks: !hasAnnotated,
+      return Stack(
+        fit: StackFit.expand,
+        children: [
+          // Base image — BoxFit.contain centres it within the container
+          Image.memory(
+            imageBytes,
+            fit: BoxFit.contain,
+            gaplessPlayback: true,
           ),
-        ),
-      ],
-    );
+          // Overlay painter — receives container size and image dimensions
+          // so it can compute the exact content rect
+          CustomPaint(
+            painter: _OverlayPainter(
+              detections: inferenceResponse.detections,
+              imageW: inferenceResponse.imageWidth.toDouble(),
+              imageH: inferenceResponse.imageHeight.toDouble(),
+            ),
+            size: Size(containerW, containerH),
+          ),
+        ],
+      );
+    });
   }
 }
 
 class _OverlayPainter extends CustomPainter {
   final List<DetectionResult> detections;
-  final bool drawBoxes;
-  final bool drawMasks;
+  final double imageW; // original image pixel width
+  final double imageH; // original image pixel height
 
   const _OverlayPainter({
     required this.detections,
-    required this.drawBoxes,
-    required this.drawMasks,
+    required this.imageW,
+    required this.imageH,
   });
+
+  /// Computes the sub-rectangle occupied by the image content when displayed
+  /// with BoxFit.contain inside a container of [size].
+  /// This is identical to what Flutter's engine does internally.
+  Rect _imageRect(Size size) {
+    if (imageW <= 0 || imageH <= 0) return Rect.fromLTWH(0, 0, size.width, size.height);
+    final scale = math.min(size.width / imageW, size.height / imageH);
+    final fitW = imageW * scale;
+    final fitH = imageH * scale;
+    final left = (size.width - fitW) / 2;
+    final top = (size.height - fitH) / 2;
+    return Rect.fromLTWH(left, top, fitW, fitH);
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
+    final imgRect = _imageRect(size);
+
     for (var i = 0; i < detections.length; i++) {
       final det = detections[i];
       final variety = getVarietyById(det.classId);
       final color =
-      variety != null ? Color(variety.colorHex) : const Color(0xFF1D9E75);
+      variety != null ? Color(variety.colorHex) : const Color(0xFF7B2D00);
 
-      if (drawMasks) _drawSeg(canvas, size, det, color);
-      if (drawBoxes) _drawBox(canvas, size, det, color);
-      // Always draw numbered labels regardless of mode
-      _drawNumberedLabel(canvas, size, det, color, i + 1);
+      _drawSeg(canvas, imgRect, det, color);
+      _drawBox(canvas, imgRect, det, color);
+      _drawNumberedLabel(canvas, imgRect, det, color, i + 1);
     }
   }
 
-  // ── Segmentation mask (only for mock / no annotated image) ──────────────────
-  void _drawSeg(Canvas canvas, Size size, DetectionResult det, Color color) {
+  /// Maps a normalised (0-1) coord to a pixel offset within [imgRect].
+  Offset _map(double nx, double ny, Rect r) =>
+      Offset(r.left + nx * r.width, r.top + ny * r.height);
+
+  // ── Segmentation mask ────────────────────────────────────────────────────────
+  void _drawSeg(Canvas canvas, Rect imgRect, DetectionResult det, Color color) {
     final pts = det.segmentation;
     if (pts == null || pts.isEmpty) return;
-    final path = Path()
-      ..moveTo(pts.first.dx * size.width, pts.first.dy * size.height);
+
+    final path = Path();
+    final first = _map(pts.first.dx, pts.first.dy, imgRect);
+    path.moveTo(first.dx, first.dy);
     for (final p in pts.skip(1)) {
-      path.lineTo(p.dx * size.width, p.dy * size.height);
+      final mapped = _map(p.dx, p.dy, imgRect);
+      path.lineTo(mapped.dx, mapped.dy);
     }
     path.close();
+
     canvas.drawPath(
         path,
         Paint()
@@ -120,25 +139,22 @@ class _OverlayPainter extends CustomPainter {
         Paint()
           ..color = color.withOpacity(0.85)
           ..style = PaintingStyle.stroke
-          ..strokeWidth = math.max(size.width * 0.005, 2.0)
+          ..strokeWidth = math.max(imgRect.width * 0.004, 1.5)
           ..strokeJoin = StrokeJoin.round);
   }
 
-  // ── Bounding box (only for mock / no annotated image) ───────────────────────
-  void _drawBox(Canvas canvas, Size size, DetectionResult det, Color color) {
+  // ── Bounding box ─────────────────────────────────────────────────────────────
+  void _drawBox(Canvas canvas, Rect imgRect, DetectionResult det, Color color) {
     final b = det.boundingBox;
     final rect = Rect.fromLTRB(
-      b.left * size.width,
-      b.top * size.height,
-      b.right * size.width,
-      b.bottom * size.height,
+      imgRect.left + b.left * imgRect.width,
+      imgRect.top  + b.top  * imgRect.height,
+      imgRect.left + b.right * imgRect.width,
+      imgRect.top  + b.bottom * imgRect.height,
     );
-    final sw = math.max(size.width * 0.004, 1.5);
+    final sw = math.max(imgRect.width * 0.004, 1.5);
     _dashed(canvas, rect,
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = sw);
+        Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = sw);
     _corners(canvas, rect, color, sw * 2.2);
   }
 
@@ -151,10 +167,7 @@ class _OverlayPainter extends CustomPainter {
     bool on = true;
     while (d < m.length) {
       final next = d + (on ? dash : gap);
-      if (on) {
-        canvas.drawPath(
-            m.extractPath(d, next.clamp(0, m.length)), paint);
-      }
+      if (on) canvas.drawPath(m.extractPath(d, next.clamp(0, m.length)), paint);
       d = next;
       on = !on;
     }
@@ -178,39 +191,33 @@ class _OverlayPainter extends CustomPainter {
     L(r.bottomRight, r.bottomRight.translate(0, -len));
   }
 
-  // ── Numbered label: circle with index + "TAG  conf%" text chip ──────────────
+  // ── Numbered label ────────────────────────────────────────────────────────────
   void _drawNumberedLabel(
-      Canvas canvas, Size size, DetectionResult det, Color color, int num) {
+      Canvas canvas, Rect imgRect, DetectionResult det, Color color, int num) {
     final b = det.boundingBox;
-    final boxLeft = b.left * size.width;
-    final boxTop = b.top * size.height;
+    final boxLeft = imgRect.left + b.left * imgRect.width;
+    final boxTop  = imgRect.top  + b.top  * imgRect.height;
 
-    final fs = math.max(size.shortestSide * 0.030, 10.0);
+    final fs = math.max(imgRect.shortestSide * 0.030, 10.0);
     final circleR = fs * 0.9;
+    final circleCenter = Offset(boxLeft + circleR + 3, boxTop + circleR + 3);
 
-    // ── Numbered circle ──────────────────────────────────────────────────────
-    final circleCenter =
-    Offset(boxLeft + circleR + 3, boxTop + circleR + 3);
+    // Circle
     canvas.drawCircle(circleCenter, circleR, Paint()..color = color);
-
     final numPb = ui.ParagraphBuilder(
       ui.ParagraphStyle(
-          fontSize: fs * 0.85,
-          fontWeight: FontWeight.w800,
+          fontSize: fs * 0.85, fontWeight: FontWeight.w800,
           textAlign: TextAlign.center),
     )
       ..pushStyle(ui.TextStyle(color: Colors.white))
       ..addText('$num');
     final numPara = numPb.build()
       ..layout(ui.ParagraphConstraints(width: circleR * 2));
-    canvas.drawParagraph(
-        numPara,
-        Offset(circleCenter.dx - circleR,
-            circleCenter.dy - numPara.height / 2));
+    canvas.drawParagraph(numPara,
+        Offset(circleCenter.dx - circleR, circleCenter.dy - numPara.height / 2));
 
-    // ── Text chip ─────────────────────────────────────────────────────────────
-    final label =
-        '${det.yoloTag}  ${(det.confidence * 100).toStringAsFixed(1)}%';
+    // Label chip
+    final label = '${det.yoloTag}  ${(det.confidence * 100).toStringAsFixed(1)}%';
     final labelPb = ui.ParagraphBuilder(
       ui.ParagraphStyle(fontSize: fs, fontWeight: FontWeight.w700),
     )
@@ -222,23 +229,22 @@ class _OverlayPainter extends CustomPainter {
     const pad = 3.0;
     final bgW = labelPara.longestLine + pad * 2 + 4;
     final bgH = labelPara.height + pad * 2;
-    final bgLeft =
-    (circleCenter.dx + circleR + 4).clamp(0.0, size.width - bgW);
-    final bgTop = boxTop.clamp(0.0, size.height - bgH);
+    // Keep label chip within the image rect, not the full container
+    final bgLeft = (circleCenter.dx + circleR + 4)
+        .clamp(imgRect.left, imgRect.right - bgW);
+    final bgTop = boxTop.clamp(imgRect.top, imgRect.bottom - bgH);
 
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-          Rect.fromLTWH(bgLeft, bgTop, bgW, bgH),
-          const Radius.circular(4)),
+          Rect.fromLTWH(bgLeft, bgTop, bgW, bgH), const Radius.circular(4)),
       Paint()..color = color.withOpacity(0.85),
     );
-    canvas.drawParagraph(
-        labelPara, Offset(bgLeft + pad, bgTop + pad));
+    canvas.drawParagraph(labelPara, Offset(bgLeft + pad, bgTop + pad));
   }
 
   @override
   bool shouldRepaint(_OverlayPainter old) =>
       old.detections != detections ||
-          old.drawBoxes != drawBoxes ||
-          old.drawMasks != drawMasks;
+          old.imageW != imageW ||
+          old.imageH != imageH;
 }
