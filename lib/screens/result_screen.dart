@@ -65,7 +65,7 @@ class ResultScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
+                const Positioned(
                   top: kToolbarHeight + 6, right: 12,
                   child: _Badge(label: 'YOLOv12 · On-device', dark: true),
                 ),
@@ -190,7 +190,7 @@ class ResultScreen extends StatelessWidget {
                 // Owner
                 _InfoCard(
                   child: Row(children: [
-                    Icon(Icons.account_balance_outlined,
+                    const Icon(Icons.account_balance_outlined,
                         size: 16, color: KakaWiseTheme.textSecondary),
                     const SizedBox(width: 8),
                     Expanded(
@@ -400,7 +400,7 @@ class _NsicCard extends StatelessWidget {
         ]),
         const SizedBox(height: 10),
         Row(children: [
-          Icon(Icons.account_balance_outlined,
+          const Icon(Icons.account_balance_outlined,
               size: 14, color: KakaWiseTheme.textSecondary),
           const SizedBox(width: 6),
           Expanded(

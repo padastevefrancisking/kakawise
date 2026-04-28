@@ -10,21 +10,28 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # ── On-device YOLOv12 inference (Ultralytics Flutter SDK) ────────────────
-  # Supports .tflite models on Android/iOS via TensorFlow Lite delegate.
-  # See: https://pub.dev/packages/ultralytics_yolo
-  ultralytics_yolo: ^0.3.0
+  # ── On-device ONNX inference ──────────────────────────────────────────────
+  # flutter_onnxruntime wraps the official ONNX Runtime C API via dart:ffi.
+  # It downloads the correct native library for Android (arm64-v8a, x86_64)
+  # and iOS (arm64) automatically at build time — nothing to bundle manually.
+  # Version ≥1.5.1 is required for Android 16 KB page-size compatibility
+  # (Google Play requirement from Nov 2025 onward).
+  # https://pub.dev/packages/flutter_onnxruntime
+  flutter_onnxruntime: ^1.5.1
 
-  # ── Image ─────────────────────────────────────────────────────────────────
-  image_picker: ^1.1.2         # Camera + gallery
-  image: ^4.1.7                # Pixel-level image compositing for rendered overlay
+  # ── Image processing (letterbox resize + pixel access for ONNX input) ─────
+  # Used to resize + pad images to 640×640 and build the float32 CHW tensor.
+  image: ^4.2.0
+
+  # ── Image picking ─────────────────────────────────────────────────────────
+  image_picker: ^1.1.2
 
   # ── UI ────────────────────────────────────────────────────────────────────
-  google_fonts: ^8.0.2
+  google_fonts: ^8.1.0
   flutter_animate: ^4.5.0
 
   # ── Utils ─────────────────────────────────────────────────────────────────
-  path_provider: ^2.1.3        # Temporary directory for saving rendered image
+  path_provider: ^2.1.3
   shared_preferences: ^2.2.3
   cupertino_icons: ^1.0.8
 
@@ -36,4 +43,4 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/models/
+    - assets/models/kakawisev12_seg.onnx

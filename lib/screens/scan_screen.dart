@@ -491,7 +491,7 @@ class _LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      CircularProgressIndicator(
+      const CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(KakaWiseTheme.primary),
           strokeWidth: 2.5),
       const SizedBox(height: 16),
@@ -537,7 +537,7 @@ class _LoadingResultPlaceholder extends StatelessWidget {
         border: Border.all(color: KakaWiseTheme.border, width: 0.5),
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        SizedBox(
+        const SizedBox(
           width: 16, height: 16,
           child: CircularProgressIndicator(
               strokeWidth: 2,

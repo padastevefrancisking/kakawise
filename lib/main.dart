@@ -155,7 +155,7 @@ class _AppHeader extends StatelessWidget {
               color: Colors.white.withOpacity(0.12),
               shape: BoxShape.circle,
             ),
-            child: Icon(
+            child: const Icon(
               Icons.help_outline_rounded,
               color: KakaWiseTheme.headerSub,
               size: 19,
