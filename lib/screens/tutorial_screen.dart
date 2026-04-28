@@ -277,29 +277,132 @@ class _Page2HowTo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _TutorialPage(
+    return _TutorialPage(
       accentColor: KakaWiseTheme.primary,
       title: 'Take a photo or upload one',
       body:
-      'Tap the Scan Pod tab at the bottom. '
-          'Choose "Take Photo" to use your camera, or '
-          '"Upload Image" to pick a photo from your gallery. '
-          'The app will analyse it automatically.',
-      illustration: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _MethodCard(
-            icon: Icons.camera_alt_rounded,
-            label: 'Take Photo',
-            color: KakaWiseTheme.primary,
-          ),
-          SizedBox(width: 16),
-          _MethodCard(
-            icon: Icons.photo_library_rounded,
-            label: 'Upload Image',
-            color: Color(0xFF7F77DD),
-          ),
-        ],
+      'Tap the Scan Pod tab at the bottom. Choose "Take Photo" to use your camera, or "Upload Image" to pick a photo from your gallery. The app will analyse it automatically.',
+
+      illustration: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // ── Segmented toggle ───────────────────────────────
+            Container(
+              height: 44,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: KakaWiseTheme.border,
+                  width: 0.5,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        color: KakaWiseTheme.primary.withOpacity(0.10),
+                        borderRadius: const BorderRadius.horizontal(
+                          left: Radius.circular(11),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.camera_alt_outlined,
+                            size: 16,
+                            color: KakaWiseTheme.primary,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Take Photo',
+                            style: GoogleFonts.dmSans(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              color: KakaWiseTheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    width: 0.5,
+                    color: KakaWiseTheme.border,
+                  ),
+
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.photo_library_outlined,
+                          size: 16,
+                          color: KakaWiseTheme.textSecondary,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Upload Image',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 11,
+                            color: KakaWiseTheme.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 14),
+
+            // ── Main scan button ──────────────────────────────
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: null,
+                style: FilledButton.styleFrom(
+                  disabledBackgroundColor: KakaWiseTheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 13),
+                ),
+                icon: const Icon(
+                  Icons.camera_alt_rounded,
+                  size: 18,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  'Take a photo',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              'Point your camera at a cacao pod',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                fontSize: 11,
+                color: KakaWiseTheme.textSecondary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
