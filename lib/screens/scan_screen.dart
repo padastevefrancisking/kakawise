@@ -273,7 +273,7 @@ class _DetectionResultsPanel extends StatelessWidget {
             decoration: BoxDecoration(
               color: KakaWiseTheme.cardBg,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: color.withOpacity(0.3), width: 0.8),
+              border: Border.all(color: color.withValues(alpha: 0.3), width: 0.8),
             ),
             child: Column(children: [
               Padding(
@@ -282,7 +282,7 @@ class _DetectionResultsPanel extends StatelessWidget {
                   Container(
                     width: 40, height: 40,
                     decoration: BoxDecoration(
-                        color: color.withOpacity(0.12),
+                        color: color.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(10)),
                       child: _PodImage(color: color),
                   ),
@@ -317,16 +317,16 @@ class _DetectionResultsPanel extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.06),
+                  color: color.withValues(alpha: 0.06),
                   borderRadius: const BorderRadius.vertical(bottom: Radius.circular(13)),
                 ),
                 child: Row(children: [
-                  Icon(Icons.tag_rounded, size: 13, color: color.withOpacity(0.7)),
+                  Icon(Icons.tag_rounded, size: 13, color: color.withValues(alpha: 0.7)),
                   const SizedBox(width: 5),
                   Text(labelStr,
                       style: GoogleFonts.inter(
                           fontSize: 11, fontWeight: FontWeight.w600,
-                          color: color.withOpacity(0.85))),
+                          color: color.withValues(alpha: 0.85))),
                   const SizedBox(width: 8),
                   Text('${g.labels.length} detection${g.labels.length != 1 ? 's' : ''}',
                       style: GoogleFonts.inter(
@@ -392,7 +392,7 @@ class _Seg extends StatelessWidget {
           duration: const Duration(milliseconds: 160),
           height: double.infinity,
           decoration: BoxDecoration(
-            color: active ? KakaWiseTheme.primary.withOpacity(0.1) : Colors.transparent,
+            color: active ? KakaWiseTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
             borderRadius: br,
           ),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -420,7 +420,7 @@ class _EmptyPlaceholder extends StatelessWidget {
       SizedBox(
         width: 72, height: 72,
         child: _PodImage(
-          color: KakaWiseTheme.primary.withOpacity(0.35),
+          color: KakaWiseTheme.primary.withValues(alpha: 0.35),
           large: true,
         ),
       ),
@@ -432,7 +432,7 @@ class _EmptyPlaceholder extends StatelessWidget {
       Text('Take or upload a photo to identify\nthe cacao pod variety',
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(fontSize: 12,
-              color: KakaWiseTheme.textSecondary.withOpacity(0.65), height: 1.5)),
+              color: KakaWiseTheme.textSecondary.withValues(alpha: 0.65), height: 1.5)),
     ]);
   }
 }
@@ -451,7 +451,7 @@ class _LoadingView extends StatelessWidget {
       const SizedBox(height: 4),
       Text('Running on-device YOLOv12',
           style: GoogleFonts.inter(fontSize: 11,
-              color: KakaWiseTheme.textSecondary.withOpacity(0.6))),
+              color: KakaWiseTheme.textSecondary.withValues(alpha: 0.6))),
     ]);
   }
 }
@@ -503,7 +503,7 @@ class _NoDetectionBanner extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF3E0), borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: KakaWiseTheme.accent.withOpacity(0.4), width: 0.5),
+        border: Border.all(color: KakaWiseTheme.accent.withValues(alpha: 0.4), width: 0.5),
       ),
       child: Row(children: [
         Icon(Icons.search_off_rounded, color: KakaWiseTheme.accent, size: 20),
@@ -530,7 +530,7 @@ class _ErrorBanner extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: const Color(0xFFFCEBEB), borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFF09595).withOpacity(0.4), width: 0.5),
+        border: Border.all(color: const Color(0xFFF09595).withValues(alpha: 0.4), width: 0.5),
       ),
       child: Row(children: [
         const Icon(Icons.error_outline, color: Color(0xFFA32D2D), size: 18),

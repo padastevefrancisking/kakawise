@@ -102,7 +102,7 @@ class _PoweredByStrip extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
           decoration: BoxDecoration(
-              color: KakaWiseTheme.primary.withOpacity(0.1),
+              color: KakaWiseTheme.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20)),
           child: Text('v12',
               style: GoogleFonts.inter(
@@ -172,16 +172,16 @@ class _VarietyCard extends StatelessWidget {
           // Banner
           Container(
             height: 76,
-            color: color.withOpacity(0.12),
+            color: color.withValues(alpha: 0.12),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             child: Row(children: [
               Container(
                 width: 46,
                 height: 46,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.2),
+                  color: color.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: color.withOpacity(0.4), width: 1),
+                  border: Border.all(color: color.withValues(alpha: 0.4), width: 1),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(6),
@@ -256,14 +256,14 @@ class _VarietyCard extends StatelessWidget {
                   children: variety.tags.map((tag) => Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.1),
+                      color: color.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: color.withOpacity(0.3), width: 0.5),
+                      border: Border.all(color: color.withValues(alpha: 0.3), width: 0.5),
                     ),
                     child: Text(tag,
                         style: GoogleFonts.inter(
                             fontSize: 10, fontWeight: FontWeight.w600,
-                            color: color.withOpacity(0.9))),
+                            color: color.withValues(alpha: 0.9))),
                   )).toList(),
                 ),
             ]),

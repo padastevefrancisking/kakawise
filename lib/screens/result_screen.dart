@@ -60,7 +60,7 @@ class ResultScreen extends StatelessWidget {
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, Colors.black.withOpacity(0.6)],
+                        colors: [Colors.transparent, Colors.black.withValues(alpha: 0.6)],
                       ),
                     ),
                   ),
@@ -255,7 +255,7 @@ class _SectionHeader extends StatelessWidget {
         GestureDetector(
           onTap: () => _showDialog(context),
           child: Icon(Icons.help_outline_rounded,
-              size: 15, color: KakaWiseTheme.textSecondary.withOpacity(0.6)),
+              size: 15, color: KakaWiseTheme.textSecondary.withValues(alpha: 0.6)),
         ),
       ],
     ]);
@@ -293,7 +293,7 @@ class _SectionHeader extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.12),
+                    color: Colors.black.withValues(alpha: 0.12),
                     blurRadius: 24,
                     offset: const Offset(0, 8),
                   ),
@@ -360,9 +360,9 @@ class _NsicCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: color.withOpacity(0.3), width: 0.5),
+              border: Border.all(color: color.withValues(alpha: 0.3), width: 0.5),
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('Registration No.',
@@ -454,7 +454,7 @@ class _ApiCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.12),
+              color: color.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(variety.podIndexRating,
@@ -580,12 +580,12 @@ class _ColorChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.06),
+        color: color.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withOpacity(0.2), width: 0.5),
+        border: Border.all(color: color.withValues(alpha: 0.2), width: 0.5),
       ),
       child: Row(children: [
-        Icon(icon, size: 14, color: color.withOpacity(0.6)),
+        Icon(icon, size: 14, color: color.withValues(alpha: 0.6)),
         const SizedBox(width: 6),
         Expanded(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -824,7 +824,7 @@ class _ConfidenceCard extends StatelessWidget {
                     minHeight: 6,
                     backgroundColor: KakaWiseTheme.border,
                     valueColor: AlwaysStoppedAnimation<Color>(
-                        isTop ? barColor : barColor.withOpacity(0.35)),
+                        isTop ? barColor : barColor.withValues(alpha: 0.35)),
                   ),
                 ),
               ],
@@ -890,9 +890,9 @@ class _Tag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.3), width: 0.5),
+        border: Border.all(color: color.withValues(alpha: 0.3), width: 0.5),
       ),
       child: Text(label,
           style: GoogleFonts.inter(

@@ -130,7 +130,7 @@ class _AppHeader extends StatelessWidget {
           width: 34,
           height: 34,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(9),
           ),
             child: ClipRRect(
@@ -169,7 +169,7 @@ class _AppHeader extends StatelessWidget {
             width: 34,
             height: 34,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.12),
+              color: Colors.white.withValues(alpha: 0.12),
               shape: BoxShape.circle,
             ),
             child: const Icon(
@@ -200,7 +200,7 @@ class _NavBar extends StatelessWidget {
             top: BorderSide(color: KakaWiseTheme.border, width: 0.5)),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.06),
+              color: Colors.black.withValues(alpha: 0.06),
               blurRadius: 12,
               offset: const Offset(0, -2)),
         ],
