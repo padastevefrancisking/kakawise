@@ -94,7 +94,6 @@ class _ScanScreenState extends State<ScanScreen> {
         _loading = false;
       });
     } catch (e, st) {
-      print('_infer error: $e\n$st');
       setState(() { _error = e.toString(); _loading = false; });
     }
   }

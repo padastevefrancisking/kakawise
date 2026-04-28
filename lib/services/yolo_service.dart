@@ -113,8 +113,6 @@ class YoloService {
     _session = await ort.createSession(file.path);
 
     _loaded = true;
-
-    print('ONNX loaded from: ${file.path}');
   }
 
   // ── Main classify entry point ──────────────────────────────────────────────
@@ -180,13 +178,10 @@ class YoloService {
     await out0.dispose();
     await out1.dispose();
 
-    print('=== ONNX raw0 len=${raw0.length}  raw1 len=${raw1.length} ===');
-
     // ── 5. Parse output0: filter by confidence ────────────────────────────────
     // output0 shape: [1, rows, 8400] stored in row-major order.
     // Element at row r, anchor a: raw0[r * 8400 + a]
     const int numAnchors = 8400;
-    const int numRows = 4 + _numClasses + _maskDim; // 4+3+32 = 39
 
     final List<_Candidate> candidates = [];
 
@@ -219,11 +214,9 @@ class YoloService {
       ));
     }
 
-    print('candidates before NMS: ${candidates.length}');
 
     // ── 6. NMS ────────────────────────────────────────────────────────────────
     final List<_Candidate> kept = _nms(candidates, _iouThreshold);
-    print('kept after NMS: ${kept.length}');
 
     // ── 7. Build per-class confidence map ─────────────────────────────────────
     final Map<String, double> classConf = {
@@ -253,9 +246,6 @@ class YoloService {
 
       final tag = _classNames[cand.cls];
       final variety = getVarietyByYoloClass(tag);
-
-      print('  det: $tag conf=${cand.conf.toStringAsFixed(3)} '
-          'box=$normBox  poly=${polygon.length}pts');
 
       detections.add(DetectionResult(
         classId: variety?.id ?? tag,
