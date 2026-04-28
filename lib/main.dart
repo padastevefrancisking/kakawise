@@ -133,7 +133,24 @@ class _AppHeader extends StatelessWidget {
             color: Colors.white.withOpacity(0.15),
             borderRadius: BorderRadius.circular(9),
           ),
-          child: const Icon(Icons.eco_rounded, color: Colors.white, size: 19),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(9),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 1,
+                  vertical: 3,
+                ),
+                child: Image.asset(
+                  'assets/images/kakawiselogo.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const Icon(
+                    Icons.eco_rounded,
+                    color: Colors.white,
+                    size: 19,
+                  ),
+                ),
+              ),
+            ),
         ),
         const SizedBox(width: 10),
         // App name

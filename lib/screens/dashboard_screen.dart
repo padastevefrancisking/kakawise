@@ -176,13 +176,25 @@ class _VarietyCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             child: Row(children: [
               Container(
-                width: 46, height: 46,
+                width: 46,
+                height: 46,
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: color.withOpacity(0.4), width: 1),
                 ),
-                child: Icon(Icons.eco_rounded, color: color, size: 22),
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Image.asset(
+                    'assets/images/pods.png',
+                    fit: BoxFit.contain,
+                    errorBuilder: (_, __, ___) => Icon(
+                      Icons.eco_rounded,
+                      color: color,
+                      size: 22,
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
