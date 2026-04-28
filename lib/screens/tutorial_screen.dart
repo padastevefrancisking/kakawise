@@ -236,12 +236,12 @@ class _Page1Intro extends StatelessWidget {
               style: GoogleFonts.dmSans(
                   fontSize: 13, color: KakaWiseTheme.textSecondary)),
           const SizedBox(height: 12),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _CloneChip('BR 25', const Color(0xFFEF9F27)),
-            const SizedBox(width: 6),
-            _CloneChip('UF 18', const Color(0xFF7F77DD)),
-            const SizedBox(width: 6),
-            _CloneChip('W 10', const Color(0xFF1D9E75)),
+          const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            _CloneChip('BR 25', Color(0xFFEF9F27)),
+            SizedBox(width: 6),
+            _CloneChip('UF 18', Color(0xFF7F77DD)),
+            SizedBox(width: 6),
+            _CloneChip('W 10', Color(0xFF1D9E75)),
           ]),
         ],
       ),
@@ -277,7 +277,7 @@ class _Page2HowTo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _TutorialPage(
+    return const _TutorialPage(
       accentColor: KakaWiseTheme.primary,
       title: 'Take a photo or upload one',
       body:
@@ -293,11 +293,11 @@ class _Page2HowTo extends StatelessWidget {
             label: 'Take Photo',
             color: KakaWiseTheme.primary,
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           _MethodCard(
             icon: Icons.photo_library_rounded,
             label: 'Upload Image',
-            color: const Color(0xFF7F77DD),
+            color: Color(0xFF7F77DD),
           ),
         ],
       ),
@@ -383,7 +383,7 @@ class _Page3Distance extends StatelessWidget {
                 color: KakaWiseTheme.primary.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(Icons.camera_alt_rounded,
+              child: const Icon(Icons.camera_alt_rounded,
                   size: 24,
                   color: KakaWiseTheme.primary),
             ),
@@ -439,8 +439,8 @@ class _Page4Disclaimer extends StatelessWidget {
           Container(
             width: 64,
             height: 64,
-            decoration: BoxDecoration(
-              color: const Color(0xFFFAEDE6),
+            decoration: const BoxDecoration(
+              color: Color(0xFFFAEDE6),
               shape: BoxShape.circle,
             ),
             child: const Icon(Icons.info_outline_rounded,

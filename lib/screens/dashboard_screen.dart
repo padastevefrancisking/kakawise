@@ -36,7 +36,7 @@ class DashboardScreen extends StatelessWidget {
                 value: '${cacaoVarieties.length}',
                 icon: Icons.document_scanner_outlined),
             const SizedBox(width: 8),
-            _StatChip(
+            const _StatChip(
                 label: 'On-device AI',
                 value: 'Active',
                 icon: Icons.offline_bolt_outlined),
@@ -201,7 +201,7 @@ class _VarietyCard extends StatelessWidget {
               ),
               _NsicBadge(approved: variety.isApproved),
               const SizedBox(width: 4),
-              Icon(Icons.chevron_right_rounded, color: KakaWiseTheme.textSecondary),
+              const Icon(Icons.chevron_right_rounded, color: KakaWiseTheme.textSecondary),
             ]),
           ),
 

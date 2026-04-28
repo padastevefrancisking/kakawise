@@ -198,7 +198,7 @@ class VarietyDetailScreen extends StatelessWidget {
                 // ── OWNER ─────────────────────────────────────────────
                 _Card(
                   child: Row(children: [
-                    Icon(Icons.account_balance_outlined,
+                    const Icon(Icons.account_balance_outlined,
                         size: 16, color: KakaWiseTheme.textSecondary),
                     const SizedBox(width: 8),
                     Expanded(
