@@ -54,7 +54,18 @@ class VarietyDetailScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(color: color.withValues(alpha: 0.4)),
                         ),
-                        child: Icon(Icons.eco_rounded, color: color, size: 26),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6),
+                          child: Image.asset(
+                            'assets/images/pods.png',
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, __, ___) => Icon(
+                              Icons.eco_rounded,
+                              color: color,
+                              size: 22,
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Column(

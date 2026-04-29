@@ -209,8 +209,8 @@ class _Page1Intro extends StatelessWidget {
       accentColor: KakaWiseTheme.primary,
       title: 'Welcome to KakaWise',
       body:
-      'KakaWise helps you identify Philippine NSIC-registered cacao pod '
-          'varieties — BR 25, UF 18, and W 10 — using on-device AI. '
+      'KakaWise helps you identify Philippine cacao varieties '
+          '(BR 25, UF 18, and W 10) using on-device AI. '
           'No internet connection required.',
       illustration: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -222,8 +222,15 @@ class _Page1Intro extends StatelessWidget {
               color: KakaWiseTheme.primary,
               borderRadius: BorderRadius.circular(18),
             ),
-            child: const Icon(Icons.eco_rounded,
-                color: Colors.white, size: 38),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15), // adjust radius
+              child: Image.asset(
+                'assets/images/kakawise_icon.png',
+                width: 38,
+                height: 38,
+                fit: BoxFit.cover, // important to avoid weird cropping
+              ),
+            )
           ),
           const SizedBox(height: 16),
           Text('KakaWise',
@@ -232,7 +239,7 @@ class _Page1Intro extends StatelessWidget {
                   color: KakaWiseTheme.primary,
                   letterSpacing: -0.5)),
           const SizedBox(height: 4),
-          Text('Cacao Variety Identifier',
+          Text('Cacao Variety Classifier',
               style: GoogleFonts.dmSans(
                   fontSize: 13, color: KakaWiseTheme.textSecondary)),
           const SizedBox(height: 12),
