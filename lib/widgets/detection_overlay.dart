@@ -132,12 +132,12 @@ class _OverlayPainter extends CustomPainter {
     canvas.drawPath(
         path,
         Paint()
-          ..color = color.withOpacity(0.22)
+          ..color = color.withValues(alpha: 0.22)
           ..style = PaintingStyle.fill);
     canvas.drawPath(
         path,
         Paint()
-          ..color = color.withOpacity(0.85)
+          ..color = color.withValues(alpha: 0.85)
           ..style = PaintingStyle.stroke
           ..strokeWidth = math.max(imgRect.width * 0.004, 1.5)
           ..strokeJoin = StrokeJoin.round);
@@ -237,7 +237,7 @@ class _OverlayPainter extends CustomPainter {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
           Rect.fromLTWH(bgLeft, bgTop, bgW, bgH), const Radius.circular(4)),
-      Paint()..color = color.withOpacity(0.85),
+      Paint()..color = color.withValues(alpha: 0.85),
     );
     canvas.drawParagraph(labelPara, Offset(bgLeft + pad, bgTop + pad));
   }

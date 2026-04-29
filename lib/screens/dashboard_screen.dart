@@ -12,13 +12,11 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // No header here — it lives in _MainShell in main.dart (sticky, always visible)
     return Scaffold(
       backgroundColor: KakaWiseTheme.surface,
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Subtitle — item 3: removed "Philippine NSIC Registered Clones"
           Text('Cacao clone varieties detectable by KakaWise',
               style: GoogleFonts.inter(
                   fontSize: 13, color: KakaWiseTheme.textSecondary)),
@@ -43,7 +41,7 @@ class DashboardScreen extends StatelessWidget {
           ]),
           const SizedBox(height: 20),
 
-          Text('CACAO CLONES',
+          Text('CACAO VARIETIES',
               style: GoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
@@ -64,8 +62,6 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 }
-
-// ─── Powered-by strip ─────────────────────────────────────────────────────────
 
 class _PoweredByStrip extends StatelessWidget {
   const _PoweredByStrip();
@@ -102,7 +98,7 @@ class _PoweredByStrip extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
           decoration: BoxDecoration(
-              color: KakaWiseTheme.primary.withOpacity(0.1),
+              color: KakaWiseTheme.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20)),
           child: Text('v12',
               style: GoogleFonts.inter(
@@ -113,8 +109,6 @@ class _PoweredByStrip extends StatelessWidget {
     );
   }
 }
-
-// ─── Stat chip ────────────────────────────────────────────────────────────────
 
 class _StatChip extends StatelessWidget {
   final String label;
@@ -148,8 +142,6 @@ class _StatChip extends StatelessWidget {
   }
 }
 
-// ─── Variety card ─────────────────────────────────────────────────────────────
-
 class _VarietyCard extends StatelessWidget {
   final CacaoVariety variety;
   const _VarietyCard({required this.variety});
@@ -172,16 +164,16 @@ class _VarietyCard extends StatelessWidget {
           // Banner
           Container(
             height: 76,
-            color: color.withOpacity(0.12),
+            color: color.withValues(alpha: 0.12),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             child: Row(children: [
               Container(
                 width: 46,
                 height: 46,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.2),
+                  color: color.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: color.withOpacity(0.4), width: 1),
+                  border: Border.all(color: color.withValues(alpha: 0.4), width: 1),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(6),
@@ -256,14 +248,14 @@ class _VarietyCard extends StatelessWidget {
                   children: variety.tags.map((tag) => Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.1),
+                      color: color.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: color.withOpacity(0.3), width: 0.5),
+                      border: Border.all(color: color.withValues(alpha: 0.3), width: 0.5),
                     ),
                     child: Text(tag,
                         style: GoogleFonts.inter(
                             fontSize: 10, fontWeight: FontWeight.w600,
-                            color: color.withOpacity(0.9))),
+                            color: color.withValues(alpha: 0.9))),
                   )).toList(),
                 ),
             ]),

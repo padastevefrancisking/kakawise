@@ -75,11 +75,11 @@ void _drawSegmentation(
   path.close();
 
   canvas.drawPath(
-      path, Paint()..color = color.withOpacity(0.28)..style = PaintingStyle.fill);
+      path, Paint()..color = color.withValues(alpha: 0.28)..style = PaintingStyle.fill);
   canvas.drawPath(
       path,
       Paint()
-        ..color = color.withOpacity(0.90)
+        ..color = color.withValues(alpha: 0.90)
         ..style = PaintingStyle.stroke
         ..strokeWidth = math.max(size.width * 0.004, 2.0)
         ..strokeJoin = StrokeJoin.round);

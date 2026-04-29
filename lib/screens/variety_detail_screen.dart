@@ -22,7 +22,7 @@ class VarietyDetailScreen extends StatelessWidget {
           SliverAppBar(
             pinned: true,
             expandedHeight: 170,
-            backgroundColor: color.withOpacity(0.12),
+            backgroundColor: color.withValues(alpha: 0.12),
             leading: Padding(
               padding: const EdgeInsets.all(8),
               child: GestureDetector(
@@ -39,7 +39,7 @@ class VarietyDetailScreen extends StatelessWidget {
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: 0.1),
                 padding: const EdgeInsets.fromLTRB(20, 80, 20, 16),
                 child: Align(
                   alignment: Alignment.bottomLeft,
@@ -50,11 +50,22 @@ class VarietyDetailScreen extends StatelessWidget {
                         width: 52,
                         height: 52,
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.2),
+                          color: color.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: color.withOpacity(0.4)),
+                          border: Border.all(color: color.withValues(alpha: 0.4)),
                         ),
-                        child: Icon(Icons.eco_rounded, color: color, size: 26),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6),
+                          child: Image.asset(
+                            'assets/images/pods.png',
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, __, ___) => Icon(
+                              Icons.eco_rounded,
+                              color: color,
+                              size: 22,
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Column(
@@ -94,10 +105,10 @@ class VarietyDetailScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.1),
+                          color: color.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                              color: color.withOpacity(0.3), width: 0.5),
+                              color: color.withValues(alpha: 0.3), width: 0.5),
                         ),
                         child: Text(t,
                             style: GoogleFonts.inter(
@@ -304,7 +315,7 @@ class _ApiRow extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
             decoration: BoxDecoration(
-                color: color.withOpacity(0.12),
+                color: color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(20)),
             child: Text(variety.podIndexRating,
                 style: GoogleFonts.inter(

@@ -1,31 +1,4 @@
 // lib/models/detection_result.dart
-//
-// ── Actual ultralytics_yolo output format (observed from device logs) ────────
-//
-// predict() returns a Map<String, dynamic> with TWO keys:
-//
-//   'boxes'          → List of detection maps, each:
-//     {
-//       'x1': 405.0,           ← pixel coord at inference size (1280)
-//       'y1': 143.75,
-//       'x2': 816.25,
-//       'y2': 911.25,
-//       'x1_norm': 0.316,      ← normalised 0-1 (already divided by imgW/H)
-//       'y1_norm': 0.112,
-//       'x2_norm': 0.637,
-//       'y2_norm': 0.711,
-//       'class':     'BR25',   ← raw class label (NOT 'tag')
-//       'className': 'BR25',   ← same, duplicate field
-//       'confidence': 0.97998, ← 0.0-1.0
-//     }
-//
-//   'annotatedImage' → List<int> JPEG bytes of the image with boxes drawn
-//                      (we ignore this — we draw our own overlay)
-//
-// NOTE: There is NO 'mask' / segmentation data in this response.
-// The plugin only returns boxes for the segment task in this SDK version.
-// The annotatedImage has the mask baked in visually, so we extract that
-// and use it as the display image instead of re-drawing the mask ourselves.
 
 import 'dart:typed_data';
 import 'dart:ui';
@@ -72,7 +45,7 @@ class DetectionResult {
       Map<String, dynamic> box, {
         required Map<String, double> allConfidences,
       }) {
-    // ── Class label ──────────────────────────────────────────────────────────
+
     // The plugin uses 'class' and 'className' (both same value).
     // 'tag' does NOT exist in this version.
     final raw = (box['class'] ?? box['className'] ?? box['tag'] ?? '').toString().trim();
@@ -80,7 +53,7 @@ class DetectionResult {
         ?? getVarietyByYoloClass(raw.toUpperCase())
         ?? getVarietyByYoloClass(raw.toLowerCase());
 
-    // ── Bounding box — use normalised fields directly ─────────────────────────
+    // Bounding box — use normalised fields directly
     final x1n = _d(box['x1_norm']);
     final y1n = _d(box['y1_norm']);
     final x2n = _d(box['x2_norm']);
@@ -111,7 +84,7 @@ class DetectionResult {
       yoloTag: raw,
       confidence: conf,
       boundingBox: normBox,
-      segmentation: null,   // not provided by this plugin version
+      segmentation: null,
       allConfidences: allConfidences,
     );
   }
@@ -119,8 +92,7 @@ class DetectionResult {
 
 double _d(dynamic v) => (v as num? ?? 0).toDouble();
 
-// ── InferenceResponse ─────────────────────────────────────────────────────────
-
+// InferenceResponse
 class InferenceResponse {
   final List<DetectionResult> detections;
   final int imageWidth;
