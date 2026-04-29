@@ -10,17 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # ── On-device ONNX inference ──────────────────────────────────────────────
-  # flutter_onnxruntime wraps the official ONNX Runtime C API via dart:ffi.
-  # It downloads the correct native library for Android (arm64-v8a, x86_64)
-  # and iOS (arm64) automatically at build time — nothing to bundle manually.
-  # Version ≥1.5.1 is required for Android 16 KB page-size compatibility
-  # (Google Play requirement from Nov 2025 onward).
-  # https://pub.dev/packages/flutter_onnxruntime
   flutter_onnxruntime: ^1.5.1
 
-  # ── Image processing (letterbox resize + pixel access for ONNX input) ─────
-  # Used to resize + pad images to 640×640 and build the float32 CHW tensor.
   image: ^4.2.0
 
   # ── Image picking ─────────────────────────────────────────────────────────
@@ -39,6 +30,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_native_splash: ^2.4.0
+
+flutter_native_splash:
+  color: "#2E7D32"
+  image: assets/images/kakawiselogo.png
+  android: true
+  ios: true
+  android_gravity: center
+  ios_content_mode: center
+  fullscreen: true
 
 flutter:
   uses-material-design: true

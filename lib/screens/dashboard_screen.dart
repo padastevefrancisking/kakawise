@@ -12,13 +12,11 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // No header here — it lives in _MainShell in main.dart (sticky, always visible)
     return Scaffold(
       backgroundColor: KakaWiseTheme.surface,
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Subtitle — item 3: removed "Philippine NSIC Registered Clones"
           Text('Cacao clone varieties detectable by KakaWise',
               style: GoogleFonts.inter(
                   fontSize: 13, color: KakaWiseTheme.textSecondary)),
@@ -43,7 +41,7 @@ class DashboardScreen extends StatelessWidget {
           ]),
           const SizedBox(height: 20),
 
-          Text('CACAO CLONES',
+          Text('CACAO VARIETIES',
               style: GoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
@@ -64,8 +62,6 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 }
-
-// ─── Powered-by strip ─────────────────────────────────────────────────────────
 
 class _PoweredByStrip extends StatelessWidget {
   const _PoweredByStrip();
@@ -114,8 +110,6 @@ class _PoweredByStrip extends StatelessWidget {
   }
 }
 
-// ─── Stat chip ────────────────────────────────────────────────────────────────
-
 class _StatChip extends StatelessWidget {
   final String label;
   final String value;
@@ -147,8 +141,6 @@ class _StatChip extends StatelessWidget {
     );
   }
 }
-
-// ─── Variety card ─────────────────────────────────────────────────────────────
 
 class _VarietyCard extends StatelessWidget {
   final CacaoVariety variety;

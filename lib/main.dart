@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kakawise/screens/intro_loading_screen.dart';
 
 import 'screens/dashboard_screen.dart';
 import 'screens/scan_screen.dart';
@@ -24,15 +24,11 @@ void main() async {
     statusBarBrightness: Brightness.dark,
   ));
 
-  final prefs = await SharedPreferences.getInstance();
-  final tutorialDone = prefs.getBool('tutorial_done') ?? false;
-
-  runApp(KakaWiseApp(showTutorial: !tutorialDone));
+  runApp(const KakaWiseApp());
 }
 
 class KakaWiseApp extends StatelessWidget {
-  final bool showTutorial;
-  const KakaWiseApp({super.key, required this.showTutorial});
+  const KakaWiseApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,35 +36,35 @@ class KakaWiseApp extends StatelessWidget {
       title: 'KakaWise',
       debugShowCheckedModeBanner: false,
       theme: KakaWiseTheme.theme,
-      home: showTutorial ? const _TutorialGate() : const _MainShell(),
+      home: const IntroLoadingScreen(),
     );
   }
 }
 
-class _TutorialGate extends StatefulWidget {
-  const _TutorialGate();
+class TutorialGate extends StatefulWidget {
+  const TutorialGate({super.key});
   @override
-  State<_TutorialGate> createState() => _TutorialGateState();
+  State<TutorialGate> createState() => TutorialGateState();
 }
 
-class _TutorialGateState extends State<_TutorialGate> {
+class TutorialGateState extends State<TutorialGate> {
   bool _done = false;
   @override
   Widget build(BuildContext context) {
-    if (_done) return const _MainShell();
+    if (_done) return const MainShell();
     return TutorialScreen(onDone: () => setState(() => _done = true));
   }
 }
 
 // ── Main shell ────────────────────────────────────────────────────────────────
 
-class _MainShell extends StatefulWidget {
-  const _MainShell();
+class MainShell extends StatefulWidget {
+  const MainShell({super.key});
   @override
-  State<_MainShell> createState() => _MainShellState();
+  State<MainShell> createState() => MainShellState();
 }
 
-class _MainShellState extends State<_MainShell> {
+class MainShellState extends State<MainShell> {
   int _idx = 0;
 
   static const _screens = <Widget>[
@@ -173,7 +169,7 @@ class _AppHeader extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: const Icon(
-              Icons.help_outline_rounded,
+              Icons.info_outline_rounded,
               color: KakaWiseTheme.headerSub,
               size: 19,
             ),

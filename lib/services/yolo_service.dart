@@ -1,53 +1,4 @@
 // lib/services/yolo_service.dart
-//
-// ── ONNX inference engine for KakaWise ───────────────────────────────────────
-//
-// Replaces ultralytics_yolo (.tflite) with flutter_onnxruntime (.onnx).
-// Everything above this file (UI, screens, detection_result, overlay) is
-// unchanged — only inference and pre/post-processing live here.
-//
-// ── Export your model ─────────────────────────────────────────────────────────
-//
-//   from ultralytics import YOLO
-//   model = YOLO("best.pt")
-//   model.export(
-//       format="onnx",
-//       imgsz=640,
-//       opset=12,        # opset 12 is safest for mobile ONNX Runtime
-//       simplify=True,   # removes unused nodes
-//       dynamic=False,   # fixed batch size = 1
-//   )
-//   # Produces: best.onnx
-//   # Rename to: kakawisev12_seg.onnx
-//   # Place at:  assets/models/kakawisev12_seg.onnx
-//
-// ── ONNX model tensor layout (YOLOv8/v12 seg) ────────────────────────────────
-//
-//   INPUT   'images'   float32  [1, 3, 640, 640]
-//                               Batch=1, RGB channels, Height, Width.
-//                               Values normalised to [0.0, 1.0].
-//                               Channel-first (CHW), letterboxed with grey padding.
-//
-//   OUTPUT0 'output0'  float32  [1, 4 + C + 32, 8400]
-//                               8400 anchors, each column is one candidate detection.
-//                               Rows 0–3:        cx, cy, w, h  (normalised 0-1, already
-//                                                un-letterboxed by the model export)
-//                               Rows 4 … 4+C-1:  class confidence per class (sigmoid)
-//                               Rows 4+C … end:  32 mask prototype coefficients
-//                               C = number of classes (3 for W10/UF18/BR25)
-//
-//   OUTPUT1 'output1'  float32  [1, 32, 160, 160]
-//                               32 prototype masks, each 160×160.
-//                               Multiply by mask coefficients from output0 to get
-//                               per-detection soft masks.
-//
-// ── Post-processing pipeline ──────────────────────────────────────────────────
-//
-//   1.  Filter anchors: keep only those where max(class scores) >= confThreshold
-//   2.  NMS: suppress overlapping boxes using IoU threshold
-//   3.  Mask decode: dot(maskCoeff[32], protos[32,160,160]) → sigmoid → threshold
-//   4.  Contour extract: walk mask boundary → normalised polygon points
-//   5.  Un-letterbox: convert model coords back to original image space
 
 import 'dart:io';
 import 'dart:math' as math;
@@ -62,7 +13,7 @@ import 'package:path_provider/path_provider.dart';
 import '../models/cacao_variety.dart';
 import '../models/detection_result.dart';
 
-// ── Configuration ─────────────────────────────────────────────────────────────
+// Configuration
 
 const String _modelAsset = 'assets/models/kakawisev12_seg.onnx';
 
