@@ -1,5 +1,9 @@
 // lib/models/cacao_variety.dart
 
+import 'dart:ui';
+
+import '../theme.dart';
+
 class CacaoVariety {
   final String id;
   final String registrationNo;
@@ -18,12 +22,12 @@ class CacaoVariety {
   final String maturePodColor;
 
   final String podBorerResistance;
-  final String diebackBorerResistance;
+  final String diebackResistance;
   final String podRotResistance;
 
   final List<String> tags;
   final List<String> characteristics;
-  final int colorHex;
+  final Color colorHex;
 
   const CacaoVariety({
     required this.id,
@@ -40,7 +44,7 @@ class CacaoVariety {
     required this.youngPodColor,
     required this.maturePodColor,
     required this.podBorerResistance,
-    required this.diebackBorerResistance,
+    required this.diebackResistance,
     required this.podRotResistance,
     required this.tags,
     required this.characteristics,
@@ -80,7 +84,7 @@ const List<CacaoVariety> cacaoVarieties = [
     youngPodColor: 'Red With Green',
     maturePodColor: 'Yellow',
     podBorerResistance: 'Moderately Resistant',
-    diebackBorerResistance: 'Moderately Resistant',
+    diebackResistance: 'Moderately Resistant',
     podRotResistance: 'Moderately Resistant',
     tags: ['Disease-resistant', 'Commercial grade', 'High pod count'],
     characteristics: [
@@ -89,7 +93,7 @@ const List<CacaoVariety> cacaoVarieties = [
       'Dense canopy requires regular pruning',
       'Cocoa flavor ideal for mass-market chocolate',
     ],
-    colorHex: 0xFFEF9F27,
+    colorHex: KakaWiseTheme.br25Color,
   ),
   CacaoVariety(
     id: 'UF18',
@@ -109,7 +113,7 @@ const List<CacaoVariety> cacaoVarieties = [
     youngPodColor: 'Red with Stripe White Ridge',
     maturePodColor: 'Orange Yellow',
     podBorerResistance: 'Susceptible',
-    diebackBorerResistance: 'Moderately Resistant',
+    diebackResistance: 'Moderately Resistant',
     podRotResistance: 'Tolerant',
     tags: ['Fine flavor', 'Aromatic'],
     characteristics: [
@@ -120,7 +124,7 @@ const List<CacaoVariety> cacaoVarieties = [
       'Good bean-to-husk ratio',
       'Recommended for lowland to mid-elevation farms',
     ],
-    colorHex: 0xFF7F77DD,
+    colorHex: KakaWiseTheme.uf18Color,
   ),
   CacaoVariety(
     id: 'W10',
@@ -140,11 +144,11 @@ const List<CacaoVariety> cacaoVarieties = [
     youngPodColor: 'N.A.',
     maturePodColor: 'N.A.',
     podBorerResistance: 'N.A.',
-    diebackBorerResistance: 'N.A.',
+    diebackResistance: 'N.A.',
     podRotResistance: 'N.A.',
     tags: [],
     characteristics: [],
-    colorHex: 0xFF1D9E75,
+    colorHex: KakaWiseTheme.w10Color,
   ),
 ];
 

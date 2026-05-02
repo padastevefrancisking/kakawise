@@ -64,7 +64,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
               onPressed: _finish,
               child: Text('Skip',
                   style: GoogleFonts.dmSans(
-                      fontSize: 13,
+                      fontSize: 15,
                       color: KakaWiseTheme.textSecondary,
                       fontWeight: FontWeight.w500)),
             ),
@@ -189,7 +189,7 @@ class _TutorialPage extends StatelessWidget {
           Text(body,
               textAlign: TextAlign.center,
               style: GoogleFonts.dmSans(
-                  fontSize: 14,
+                  fontSize: 16,
                   color: KakaWiseTheme.textSecondary,
                   height: 1.6)),
         ],
@@ -209,7 +209,7 @@ class _Page1Intro extends StatelessWidget {
       accentColor: KakaWiseTheme.primary,
       title: 'Welcome to KakaWise',
       body:
-      'KakaWise helps you identify Philippine cacao varieties '
+      'KakaWise helps you identify mature Philippine cacao varieties '
           '(BR 25, UF 18, and W 10) using on-device AI. '
           'No internet connection required.',
       illustration: Column(
@@ -244,11 +244,11 @@ class _Page1Intro extends StatelessWidget {
                   fontSize: 13, color: KakaWiseTheme.textSecondary)),
           const SizedBox(height: 12),
           const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _CloneChip('BR 25', Color(0xFFEF9F27)),
+            _CloneChip('BR 25', KakaWiseTheme.br25Color),
             SizedBox(width: 6),
-            _CloneChip('UF 18', Color(0xFF7F77DD)),
+            _CloneChip('UF 18', KakaWiseTheme.uf18Color),
             SizedBox(width: 6),
-            _CloneChip('W 10', Color(0xFF1D9E75)),
+            _CloneChip('W 10', KakaWiseTheme.w10Color),
           ]),
         ],
       ),
@@ -510,8 +510,8 @@ class _Page4Disclaimer extends StatelessWidget {
       body:
       'Characteristics displayed may vary due to environmental factors '
           'such as sunlight exposure, soil conditions, and growth stage. '
-          'Use KakaWise as a helpful guide — always consult an agronomist '
-          'or the Bureau of Plant Industry for official classification.',
+          'Use KakaWise as a helpful guide. Always consult an agriculturist '
+          'for official classification.',
       illustration: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -529,8 +529,9 @@ class _Page4Disclaimer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
-              '"Results are indicative only and may be affected by '
-                  'lighting, image angle, and crop maturity."',
+              'This application is limited to mature cacao pods ONLY. '
+              'Results are indicative only and may be affected by '
+                  'lighting, image angle, and crop maturity.',
               textAlign: TextAlign.center,
               style: GoogleFonts.dmSans(
                   fontSize: 12,

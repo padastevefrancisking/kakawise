@@ -12,7 +12,7 @@ class VarietyDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Color(variety.colorHex);
+    final color = variety.colorHex;
 
     return Scaffold(
       backgroundColor: KakaWiseTheme.surface,
@@ -378,7 +378,7 @@ class _ResistanceTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final rows = [
       ('Pod Borer', variety.podBorerResistance),
-      ('Dieback Borer', variety.diebackBorerResistance),
+      ('Dieback', variety.diebackResistance),
       ('Pod Rot', variety.podRotResistance),
     ];
     return Column(

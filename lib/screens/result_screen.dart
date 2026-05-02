@@ -23,7 +23,7 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Color(variety.colorHex);
+    final color = variety.colorHex;
     final top = inferenceResponse.topDetection!;
 
     return Scaffold(
@@ -116,7 +116,14 @@ class ResultScreen extends StatelessWidget {
                   const SizedBox(height: 8),
 
                 // ── NSIC STATUS ────────────────────────────────────────
-                _SectionHeader(label: 'NSIC STATUS', color: color),
+                _SectionHeader(
+                    label: 'NSIC STATUS',
+                    color: color,
+                    tooltip: 'NSIC Status refers to whether the National Seed Industry '
+                        'Council (NSIC) has approved of the variety. '
+                        'Varieties that are not approved are subject to '
+                        'further verification and may be considered controversial.',
+                ),
                 const SizedBox(height: 8),
                 _NsicCard(variety: variety, color: color),
                 const SizedBox(height: 16),
@@ -126,10 +133,11 @@ class ResultScreen extends StatelessWidget {
                   label: 'AVERAGE POD INDEX (API)',
                   color: color,
                   tooltip:
-                  'Average Pod Index (API) is the number of fresh cacao pods '
+                  'Average Pod Index is the number of fresh cacao pods '
                       'needed to produce 1 kg of dry cacao beans. '
                       'A lower value indicates higher bean efficiency per pod.',
                 ),
+
                 const SizedBox(height: 8),
                 _ApiCard(variety: variety, color: color),
                 const SizedBox(height: 16),
@@ -303,7 +311,7 @@ class _SectionHeader extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Average Pod Index (API)',
+                  Text(label,
                       style: GoogleFonts.inter(fontWeight: FontWeight.w700,
                           fontSize: 18, color: KakaWiseTheme.textPrimary)),
                   const SizedBox(height: 10),
@@ -661,7 +669,7 @@ class _ResistanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final rows = [
       ('Pod Borer', variety.podBorerResistance),
-      ('Dieback Borer', variety.diebackBorerResistance),
+      ('Dieback', variety.diebackResistance),
       ('Pod Rot', variety.podRotResistance),
     ];
 
@@ -778,7 +786,7 @@ class _ConfidenceCard extends StatelessWidget {
         children: sorted.map((e) {
           final v = getVarietyById(e.key);
           final barColor =
-          v != null ? Color(v.colorHex) : KakaWiseTheme.primary;
+          v != null ? v.colorHex : KakaWiseTheme.primary;
           final isTop = e.key == topClassId;
 
           return Padding(

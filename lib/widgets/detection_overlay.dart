@@ -103,7 +103,7 @@ class _OverlayPainter extends CustomPainter {
       final det = detections[i];
       final variety = getVarietyById(det.classId);
       final color =
-      variety != null ? Color(variety.colorHex) : const Color(0xFF7B2D00);
+      variety != null ? variety.colorHex : const Color(0xFF7B2D00);
 
       _drawSeg(canvas, imgRect, det, color);
       _drawBox(canvas, imgRect, det, color);

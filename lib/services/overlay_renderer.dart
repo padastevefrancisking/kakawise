@@ -47,7 +47,7 @@ Future<Uint8List> renderOverlay({
     final det = inferenceResponse.detections[i];
     final variety = getVarietyById(det.classId);
     final color =
-    variety != null ? Color(variety.colorHex) : const Color(0xFF1D9E75);
+    variety != null ? variety.colorHex : const Color(0xFF1D9E75);
 
     if (!hasAnnotated) {
       _drawSegmentation(canvas, size, det, color);

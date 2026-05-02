@@ -17,7 +17,7 @@ class DashboardScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text('Cacao clone varieties detectable by KakaWise',
+          Text('Discover cacao clone varieties',
               style: GoogleFonts.inter(
                   fontSize: 13, color: KakaWiseTheme.textSecondary)),
           const SizedBox(height: 14),
@@ -90,7 +90,7 @@ class _PoweredByStrip extends StatelessWidget {
                 style: GoogleFonts.inter(
                     fontSize: 12, fontWeight: FontWeight.w600,
                     color: KakaWiseTheme.textPrimary)),
-            Text('On-device segmentation · No internet required',
+            Text('On-device inference · No internet required',
                 style: GoogleFonts.inter(
                     fontSize: 10, color: KakaWiseTheme.textSecondary)),
           ]),
@@ -148,7 +148,7 @@ class _VarietyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Color(variety.colorHex);
+    final color = variety.colorHex;
 
     return GestureDetector(
       onTap: () => Navigator.push(context,
@@ -217,7 +217,7 @@ class _VarietyCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                      fontSize: 12, color: KakaWiseTheme.textSecondary, height: 1.5)),
+                      fontSize: 14, color: KakaWiseTheme.textSecondary, height: 1.5)),
               const SizedBox(height: 8),
               Row(children: [
                 _QuickStat(
