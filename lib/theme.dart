@@ -31,11 +31,9 @@ class KakaWiseTheme {
   // Border — warm tan, matches parchment
   static const Color border       = Color(0xFFDDCCBA);
 
-  // ── Per-variety accent colours ───────────────────────────────────────────────
-  // Kept distinct but shifted to harmonise with the brown palette
-  static const Color w10Color  = Color(0xFF1D7A60); // teal-green (leaf)
-  static const Color uf18Color = Color(0xFF6B5BBF); // purple-indigo
-  static const Color br25Color = Color(0xFFD4820A); // amber-gold (ripe pod)
+  static const Color w10Color  = Color(0xFF84994F);
+  static const Color uf18Color = Color(0xFFB45453);
+  static const Color br25Color = Color(0xFFFCB53B);
 
   static ThemeData get theme {
     final inter = GoogleFonts.interTextTheme().copyWith(

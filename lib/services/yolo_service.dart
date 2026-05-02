@@ -28,7 +28,7 @@ const int _numClasses = 3;
 const List<String> _classNames = ['BR25', 'UF18', 'W10'];
 
 /// Minimum confidence to keep a detection.
-const double kConfidenceThreshold = 0.70;
+const double kConfidenceThreshold = 0.80;
 
 /// IoU threshold for NMS: boxes with more overlap than this are suppressed.
 const double _iouThreshold = 0.45;

@@ -151,8 +151,8 @@ class _ScanScreenState extends State<ScanScreen> {
           Center(
             child: Text(
               _mode == _ScanMode.camera
-                  ? 'Point your camera at a cacao pod'
-                  : 'Select a cacao pod photo from your gallery',
+                  ? 'Point your camera at a mature cacao pod'
+                  : 'Select a mature cacao pod photo from your gallery',
               style: GoogleFonts.inter(fontSize: 11, color: KakaWiseTheme.textSecondary),
             ),
           ),
@@ -263,7 +263,7 @@ class _DetectionResultsPanel extends StatelessWidget {
       children: groups.entries.map((entry) {
         final g = entry.value;
         final variety = g.variety;
-        final color = variety != null ? Color(variety.colorHex) : KakaWiseTheme.primary;
+        final color = variety != null ? variety.colorHex : KakaWiseTheme.primary;
         final labelStr = g.labels.map((n) => 'Label $n').join(', ');
 
         return Padding(
