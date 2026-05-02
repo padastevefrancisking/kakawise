@@ -22,7 +22,7 @@ class VarietyDetailScreen extends StatelessWidget {
           SliverAppBar(
             pinned: true,
             expandedHeight: 170,
-            backgroundColor: color.withOpacity(0.12),
+            backgroundColor: color.withValues(alpha: 0.12),
             leading: Padding(
               padding: const EdgeInsets.all(8),
               child: GestureDetector(
@@ -39,7 +39,7 @@ class VarietyDetailScreen extends StatelessWidget {
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: 0.1),
                 padding: const EdgeInsets.fromLTRB(20, 80, 20, 16),
                 child: Align(
                   alignment: Alignment.bottomLeft,
@@ -50,11 +50,22 @@ class VarietyDetailScreen extends StatelessWidget {
                         width: 52,
                         height: 52,
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.2),
+                          color: color.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: color.withOpacity(0.4)),
+                          border: Border.all(color: color.withValues(alpha: 0.4)),
                         ),
-                        child: Icon(Icons.eco_rounded, color: color, size: 26),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6),
+                          child: Image.asset(
+                            'assets/images/pods.png',
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, __, ___) => Icon(
+                              Icons.eco_rounded,
+                              color: color,
+                              size: 22,
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Column(
@@ -62,11 +73,11 @@ class VarietyDetailScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(variety.name,
-                              style: GoogleFonts.dmSerifDisplay(
+                              style: GoogleFonts.inter(fontWeight: FontWeight.w700,
                                   fontSize: 26,
                                   color: KakaWiseTheme.textPrimary)),
                           Text(variety.registrationNo,
-                              style: GoogleFonts.dmSans(
+                              style: GoogleFonts.inter(
                                   fontSize: 11,
                                   color: KakaWiseTheme.textSecondary)),
                         ],
@@ -94,13 +105,13 @@ class VarietyDetailScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.1),
+                          color: color.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                              color: color.withOpacity(0.3), width: 0.5),
+                              color: color.withValues(alpha: 0.3), width: 0.5),
                         ),
                         child: Text(t,
-                            style: GoogleFonts.dmSans(
+                            style: GoogleFonts.inter(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
                                 color: color)),
@@ -170,7 +181,7 @@ class VarietyDetailScreen extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(c,
-                                      style: GoogleFonts.dmSans(
+                                      style: GoogleFonts.inter(
                                           fontSize: 13,
                                           color: KakaWiseTheme.textPrimary,
                                           height: 1.5)),
@@ -188,7 +199,7 @@ class VarietyDetailScreen extends StatelessWidget {
                 const SizedBox(height: 6),
                 _Card(
                   child: Text(variety.description,
-                      style: GoogleFonts.dmSans(
+                      style: GoogleFonts.inter(
                           fontSize: 13,
                           color: KakaWiseTheme.textPrimary,
                           height: 1.6)),
@@ -198,7 +209,7 @@ class VarietyDetailScreen extends StatelessWidget {
                 // ── OWNER ─────────────────────────────────────────────
                 _Card(
                   child: Row(children: [
-                    Icon(Icons.account_balance_outlined,
+                    const Icon(Icons.account_balance_outlined,
                         size: 16, color: KakaWiseTheme.textSecondary),
                     const SizedBox(width: 8),
                     Expanded(
@@ -206,11 +217,11 @@ class VarietyDetailScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Owner / Institution',
-                                style: GoogleFonts.dmSans(
+                                style: GoogleFonts.inter(
                                     fontSize: 10,
                                     color: KakaWiseTheme.textSecondary)),
                             Text(variety.owner,
-                                style: GoogleFonts.dmSans(
+                                style: GoogleFonts.inter(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
                                     color: KakaWiseTheme.textPrimary)),
@@ -228,7 +239,7 @@ class VarietyDetailScreen extends StatelessWidget {
   }
 
   Widget _label(String text) => Text(text,
-      style: GoogleFonts.dmSans(
+      style: GoogleFonts.inter(
           fontSize: 11,
           fontWeight: FontWeight.w700,
           color: KakaWiseTheme.textSecondary,
@@ -257,12 +268,12 @@ class _NsicRow extends StatelessWidget {
       Expanded(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(variety.registrationNo,
-              style: GoogleFonts.dmSans(
+              style: GoogleFonts.inter(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: KakaWiseTheme.textPrimary)),
           Text('${variety.nsicStatus} · ${variety.owner}',
-              style: GoogleFonts.dmSans(
+              style: GoogleFonts.inter(
                   fontSize: 11, color: KakaWiseTheme.textSecondary)),
         ]),
       ),
@@ -272,7 +283,7 @@ class _NsicRow extends StatelessWidget {
         decoration: BoxDecoration(
             color: statusBg, borderRadius: BorderRadius.circular(20)),
         child: Text(variety.nsicStatus,
-            style: GoogleFonts.dmSans(
+            style: GoogleFonts.inter(
                 fontSize: 10, fontWeight: FontWeight.w700, color: statusColor)),
       ),
     ]);
@@ -292,22 +303,22 @@ class _ApiRow extends StatelessWidget {
     return Row(children: [
       Text(
         hasData ? variety.averagePodIndex.toStringAsFixed(2) : 'N.A.',
-        style: GoogleFonts.dmSerifDisplay(
+        style: GoogleFonts.inter(fontWeight: FontWeight.w700,
             fontSize: 28, color: KakaWiseTheme.textPrimary),
       ),
       if (hasData) ...[
         const SizedBox(width: 10),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('pods / kg dry beans',
-              style: GoogleFonts.dmSans(
+              style: GoogleFonts.inter(
                   fontSize: 11, color: KakaWiseTheme.textSecondary)),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
             decoration: BoxDecoration(
-                color: color.withOpacity(0.12),
+                color: color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(20)),
             child: Text(variety.podIndexRating,
-                style: GoogleFonts.dmSans(
+                style: GoogleFonts.inter(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     color: color)),
@@ -317,7 +328,7 @@ class _ApiRow extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 8),
           child: Text('No data available',
-              style: GoogleFonts.dmSans(
+              style: GoogleFonts.inter(
                   fontSize: 12, color: KakaWiseTheme.textSecondary)),
         ),
     ]);
@@ -376,7 +387,7 @@ class _ResistanceTable extends StatelessWidget {
         return Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(r.$1,
-                style: GoogleFonts.dmSans(
+                style: GoogleFonts.inter(
                     fontSize: 13, color: KakaWiseTheme.textPrimary)),
             _Pill(level: r.$2),
           ]),
@@ -415,7 +426,7 @@ class _Pill extends StatelessWidget {
       decoration: BoxDecoration(
           color: bg, borderRadius: BorderRadius.circular(20)),
       child: Text(level,
-          style: GoogleFonts.dmSans(
+          style: GoogleFonts.inter(
               fontSize: 11, fontWeight: FontWeight.w600, color: fg)),
     );
   }
@@ -451,11 +462,11 @@ class _Stat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(label,
-          style: GoogleFonts.dmSans(
+          style: GoogleFonts.inter(
               fontSize: 10, color: KakaWiseTheme.textSecondary)),
       const SizedBox(height: 2),
       Text(value,
-          style: GoogleFonts.dmSans(
+          style: GoogleFonts.inter(
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: KakaWiseTheme.textPrimary),

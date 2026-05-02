@@ -3,12 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kakawise/screens/intro_loading_screen.dart';
 
 import 'screens/dashboard_screen.dart';
 import 'screens/scan_screen.dart';
 import 'screens/tutorial_screen.dart';
-import 'services/yolo_service.dart';
 import 'theme.dart';
 
 void main() async {
@@ -19,25 +18,17 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  // Set status-bar icons to light (white) to contrast with dark green header
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.light,
     statusBarBrightness: Brightness.dark,
   ));
 
-  // Uncomment once model is in assets/models/
-  // await YoloService.loadModel();
-
-  final prefs = await SharedPreferences.getInstance();
-  final tutorialDone = prefs.getBool('tutorial_done') ?? false;
-
-  runApp(KakaWiseApp(showTutorial: !tutorialDone));
+  runApp(const KakaWiseApp());
 }
 
 class KakaWiseApp extends StatelessWidget {
-  final bool showTutorial;
-  const KakaWiseApp({super.key, required this.showTutorial});
+  const KakaWiseApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,46 +36,55 @@ class KakaWiseApp extends StatelessWidget {
       title: 'KakaWise',
       debugShowCheckedModeBanner: false,
       theme: KakaWiseTheme.theme,
-      home: showTutorial ? const _TutorialGate() : const _MainShell(),
+      home: const IntroLoadingScreen(),
     );
   }
 }
 
-class _TutorialGate extends StatefulWidget {
-  const _TutorialGate();
+class TutorialGate extends StatefulWidget {
+  const TutorialGate({super.key});
   @override
-  State<_TutorialGate> createState() => _TutorialGateState();
+  State<TutorialGate> createState() => TutorialGateState();
 }
 
-class _TutorialGateState extends State<_TutorialGate> {
+class TutorialGateState extends State<TutorialGate> {
   bool _done = false;
   @override
   Widget build(BuildContext context) {
-    if (_done) return const _MainShell();
+    if (_done) return const MainShell();
     return TutorialScreen(onDone: () => setState(() => _done = true));
   }
 }
 
-// ── Main shell — header lives HERE, shared across both tabs ──────────────────
-// This is the fix for items 1 & 2: the header is part of the shell, not
-// inside each screen, so it is always visible, always the same colour, and
-// never moves when switching tabs or scrolling.
+// ── Main shell ────────────────────────────────────────────────────────────────
 
-class _MainShell extends StatefulWidget {
-  const _MainShell();
+class MainShell extends StatefulWidget {
+  const MainShell({super.key});
   @override
-  State<_MainShell> createState() => _MainShellState();
+  State<MainShell> createState() => MainShellState();
 }
 
-class _MainShellState extends State<_MainShell> {
+class MainShellState extends State<MainShell> {
   int _idx = 0;
-
-  static const _labels = ['Varieties', 'Scan Pod'];
 
   static const _screens = <Widget>[
     DashboardScreen(),
     ScanScreen(),
   ];
+
+  void _showTutorial() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => TutorialScreen(
+          onDone: () => Navigator.pop(context),
+        ),
+        transitionsBuilder: (_, anim, __, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: const Duration(milliseconds: 260),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +92,8 @@ class _MainShellState extends State<_MainShell> {
       backgroundColor: KakaWiseTheme.surface,
       body: Column(
         children: [
-          // ── Persistent green header — never moves ───────────────────────
-          _AppHeader(tabIndex: _idx),
-
+          // ── Persistent green header ─────────────────────────────────────
+          _AppHeader(onHelpTap: _showTutorial),
           // ── Screen content ───────────────────────────────────────────────
           Expanded(
             child: IndexedStack(index: _idx, children: _screens),
@@ -109,61 +108,74 @@ class _MainShellState extends State<_MainShell> {
   }
 }
 
-// ── App header (green, always pinned) ────────────────────────────────────────
+// ── App header ────────────────────────────────────────────────────────────────
 
 class _AppHeader extends StatelessWidget {
-  final int tabIndex;
-  const _AppHeader({required this.tabIndex});
+  final VoidCallback onHelpTap;
+  const _AppHeader({required this.onHelpTap});
 
   @override
   Widget build(BuildContext context) {
     final topPad = MediaQuery.of(context).padding.top;
     return Container(
       color: KakaWiseTheme.headerBg,
-      padding: EdgeInsets.fromLTRB(16, topPad + 10, 16, 12),
+      padding: EdgeInsets.fromLTRB(16, topPad + 10, 12, 12),
       child: Row(children: [
         // Logo icon
         Container(
           width: 34,
           height: 34,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(9),
           ),
-          child: const Icon(Icons.eco_rounded, color: Colors.white, size: 19),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(9),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 1,
+                  vertical: 3,
+                ),
+                child: Image.asset(
+                  'assets/images/kakawiselogo.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const Icon(
+                    Icons.eco_rounded,
+                    color: Colors.white,
+                    size: 19,
+                  ),
+                ),
+              ),
+            ),
         ),
         const SizedBox(width: 10),
-        // App name — always DM Serif Display per the original design intent
-        Text('KakaWise',
-            style: GoogleFonts.dmSerifDisplay(
-                fontSize: 24,
-                color: KakaWiseTheme.headerText,
-                letterSpacing: -0.2)),
+        // App name
+        Text(
+          'KakaWise',
+          style: GoogleFonts.dmSerifDisplay(
+              fontSize: 24,
+              color: KakaWiseTheme.headerText,
+              letterSpacing: -0.2),
+        ),
         const Spacer(),
-        // Subtle tab indicator in header
-        _HeaderTabPill(label: tabIndex == 0 ? 'Varieties' : 'Scan Pod'),
+        // ? help button — opens tutorial
+        GestureDetector(
+          onTap: onHelpTap,
+          child: Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.12),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.info_outline_rounded,
+              color: KakaWiseTheme.headerSub,
+              size: 19,
+            ),
+          ),
+        ),
       ]),
-    );
-  }
-}
-
-class _HeaderTabPill extends StatelessWidget {
-  final String label;
-  const _HeaderTabPill({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(label,
-          style: GoogleFonts.inter(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: KakaWiseTheme.headerSub)),
     );
   }
 }
@@ -184,7 +196,7 @@ class _NavBar extends StatelessWidget {
             top: BorderSide(color: KakaWiseTheme.border, width: 0.5)),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.06),
+              color: Colors.black.withValues(alpha: 0.06),
               blurRadius: 12,
               offset: const Offset(0, -2)),
         ],

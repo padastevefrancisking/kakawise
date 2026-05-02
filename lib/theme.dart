@@ -1,34 +1,43 @@
 // lib/theme.dart
+//
+// Colour palette inspired by real cacao: deep pod reds, warm brown husk,
+// cream bean interior, forest shadow. Replaces the previous green palette.
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class KakaWiseTheme {
-  // ── Core palette ─────────────────────────────────────────────────────────
-  static const Color primary       = Color(0xFF2D5A1B); // deep forest green
-  static const Color primaryLight  = Color(0xFF4A8C2A);
+  // ── Core cacao palette ───────────────────────────────────────────────────────
+  // Deep, rich pod-exterior red — used as the primary action colour
+  static const Color primary      = Color(0xFF7B2D00); // dark cacao red
+  static const Color primaryLight = Color(0xFFA33D00); // lighter pod red
 
-  // Header background — distinctly darker/richer green than body
-  static const Color headerBg      = Color(0xFF1E3D12);
-  static const Color headerText    = Color(0xFFE8F5DE);
-  static const Color headerSub     = Color(0xFF9DC87A);
+  // Header — very dark pod-brown, like the husk in shadow
+  static const Color headerBg     = Color(0xFF3D1200); // almost black-brown
+  static const Color headerText   = Color(0xFFF5E6D3); // cream bean colour
+  static const Color headerSub    = Color(0xFFC49A6C); // dried-husk gold
 
-  static const Color accent        = Color(0xFFD4A017); // warm cocoa gold
-  static const Color surface       = Color(0xFFF4F1EC); // warm off-white body
-  static const Color cardBg        = Color(0xFFFFFFFF);
-  static const Color textPrimary   = Color(0xFF1C1C1C);
-  static const Color textSecondary = Color(0xFF6B6560);
+  // Accent — ripe orange-yellow of a mature cacao pod
+  static const Color accent       = Color(0xFFD4820A);
 
-  // Warm brown border — NOT blue
-  static const Color border        = Color(0xFFD6CFC4);
+  // Body backgrounds
+  static const Color surface      = Color(0xFFFAF5F0); // warm cream paper
+  static const Color cardBg       = Color(0xFFFFFFFF);
 
-  // Per-variety accent colours
-  static const Color w10Color  = Color(0xFF1D9E75);
-  static const Color uf18Color = Color(0xFF7F77DD);
-  static const Color br25Color = Color(0xFFEF9F27);
+  // Text
+  static const Color textPrimary   = Color(0xFF1C1008); // almost black-brown
+  static const Color textSecondary = Color(0xFF7A5C45); // warm mid-brown
+
+  // Border — warm tan, matches parchment
+  static const Color border       = Color(0xFFDDCCBA);
+
+  // ── Per-variety accent colours ───────────────────────────────────────────────
+  // Kept distinct but shifted to harmonise with the brown palette
+  static const Color w10Color  = Color(0xFF1D7A60); // teal-green (leaf)
+  static const Color uf18Color = Color(0xFF6B5BBF); // purple-indigo
+  static const Color br25Color = Color(0xFFD4820A); // amber-gold (ripe pod)
 
   static ThemeData get theme {
-    // Use Inter for all body text — uniform stroke weight (no thick-thin)
     final inter = GoogleFonts.interTextTheme().copyWith(
       bodyLarge:   GoogleFonts.inter(fontSize: 16, color: textPrimary,   height: 1.5),
       bodyMedium:  GoogleFonts.inter(fontSize: 14, color: textPrimary,   height: 1.5),
