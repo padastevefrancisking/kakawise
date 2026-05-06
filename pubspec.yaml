@@ -52,4 +52,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/pods/
     - assets/models/kakawisev12_seg.onnx
