@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../models/cacao_variety.dart';
 import '../theme.dart';
+import '../widgets/pod_image_gallery.dart';
 
 class VarietyDetailScreen extends StatelessWidget {
   final CacaoVariety variety;
@@ -127,35 +128,16 @@ class VarietyDetailScreen extends StatelessWidget {
                 _Card(child: _NsicRow(variety: variety, color: color)),
                 const SizedBox(height: 14),
 
-                // ── AVERAGE POD INDEX ───────────────────────────────
-                _label('AVERAGE POD INDEX (API)'),
-                const SizedBox(height: 6),
-                _Card(child: _ApiRow(variety: variety, color: color)),
-                const SizedBox(height: 14),
-
-                // ── POD MEASUREMENTS ────────────────────────────────
-                _label('POD MEASUREMENTS'),
-                const SizedBox(height: 6),
-                _Card(child: _PodMeasRow(variety: variety, color: color)),
-                const SizedBox(height: 14),
-
-                // ── LEAF MORPHOLOGY ─────────────────────────────────
-                _label('LEAF MORPHOLOGY'),
+                // ── ABOUT ────────────────────────────────────────────
+                _label('ABOUT'),
                 const SizedBox(height: 6),
                 _Card(
-                  child: Row(children: [
-                    Expanded(child: _Stat('Leaf Shape', variety.leafShape)),
-                    Container(width: 0.5, height: 36, color: KakaWiseTheme.border,
-                        margin: const EdgeInsets.symmetric(horizontal: 8)),
-                    Expanded(child: _Stat('Leaf Margin', variety.leafMargin)),
-                  ]),
+                  child: Text(variety.description,
+                      style: GoogleFonts.inter(
+                          fontSize: 13,
+                          color: KakaWiseTheme.textPrimary,
+                          height: 1.6)),
                 ),
-                const SizedBox(height: 14),
-
-                // ── DISEASE & PEST RESISTANCE ───────────────────────
-                _label('DISEASE & PEST RESISTANCE'),
-                const SizedBox(height: 6),
-                _Card(child: _ResistanceTable(variety: variety, color: color)),
                 const SizedBox(height: 14),
 
                 // ── CHARACTERISTICS ─────────────────────────────────
@@ -194,16 +176,44 @@ class VarietyDetailScreen extends StatelessWidget {
                   const SizedBox(height: 14),
                 ],
 
-                // ── ABOUT ────────────────────────────────────────────
-                _label('ABOUT'),
+                // ── POD PHOTOS ─────────────────────────────────────
+                _label('POD PHOTOS'),
+                const SizedBox(height: 6),
+                PodImageGallery(
+                  varietyId: variety.id,
+                  accentColor: color,
+                ),
+                const SizedBox(height: 14),
+
+                // ── AVERAGE POD INDEX ───────────────────────────────
+                _label('AVERAGE POD INDEX (API)'),
+                const SizedBox(height: 6),
+                _Card(child: _ApiRow(variety: variety, color: color)),
+                const SizedBox(height: 14),
+
+                // ── POD MEASUREMENTS ────────────────────────────────
+                _label('POD MEASUREMENTS'),
+                const SizedBox(height: 6),
+                _Card(child: _PodMeasRow(variety: variety, color: color)),
+                const SizedBox(height: 14),
+
+                // ── LEAF MORPHOLOGY ─────────────────────────────────
+                _label('LEAF MORPHOLOGY'),
                 const SizedBox(height: 6),
                 _Card(
-                  child: Text(variety.description,
-                      style: GoogleFonts.inter(
-                          fontSize: 13,
-                          color: KakaWiseTheme.textPrimary,
-                          height: 1.6)),
+                  child: Row(children: [
+                    Expanded(child: _Stat('Leaf Shape', variety.leafShape)),
+                    Container(width: 0.5, height: 36, color: KakaWiseTheme.border,
+                        margin: const EdgeInsets.symmetric(horizontal: 8)),
+                    Expanded(child: _Stat('Leaf Margin', variety.leafMargin)),
+                  ]),
                 ),
+                const SizedBox(height: 14),
+
+                // ── DISEASE & PEST RESISTANCE ───────────────────────
+                _label('DISEASE & PEST RESISTANCE'),
+                const SizedBox(height: 6),
+                _Card(child: _ResistanceTable(variety: variety, color: color)),
                 const SizedBox(height: 14),
 
                 // ── OWNER ─────────────────────────────────────────────

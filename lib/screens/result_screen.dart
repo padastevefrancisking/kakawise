@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../models/cacao_variety.dart';
 import '../models/detection_result.dart';
 import '../theme.dart';
+import '../widgets/pod_image_gallery.dart';
 
 class ResultScreen extends StatelessWidget {
   final Uint8List renderedOverlayBytes;
@@ -117,15 +118,53 @@ class ResultScreen extends StatelessWidget {
 
                 // ── NSIC STATUS ────────────────────────────────────────
                 _SectionHeader(
-                    label: 'NSIC STATUS',
-                    color: color,
-                    tooltip: 'NSIC Status refers to whether the National Seed Industry '
-                        'Council (NSIC) has approved of the variety. '
-                        'Varieties that are not approved are subject to '
-                        'further verification and may be considered controversial.',
+                  label: 'NSIC STATUS',
+                  color: color,
+                  tooltip: 'NSIC Status refers to whether the National Seed Industry '
+                      'Council (NSIC) has approved of the variety. '
+                      'Varieties that are not approved are subject to '
+                      'further verification and may be considered controversial.',
                 ),
                 const SizedBox(height: 8),
                 _NsicCard(variety: variety, color: color),
+                const SizedBox(height: 16),
+
+                // ── CONFIDENCE SCORES ──────────────────────────────────
+                _SectionHeader(label: 'CONFIDENCE SCORES', color: color),
+                const SizedBox(height: 8),
+                _ConfidenceCard(
+                  allConfidences: top.allConfidences,
+                  topClassId: top.classId,
+                ),
+                const SizedBox(height: 16),
+
+                // ── ABOUT ──────────────────────────────────────────────
+                _SectionHeader(label: 'ABOUT THIS CLONE', color: color),
+                const SizedBox(height: 8),
+                _InfoCard(
+                  child: Text(variety.description,
+                      style: GoogleFonts.inter(
+                          fontSize: 13,
+                          color: KakaWiseTheme.textPrimary,
+                          height: 1.6)),
+                ),
+                const SizedBox(height: 20),
+
+                // ── CHARACTERISTICS ────────────────────────────────────
+                if (variety.characteristics.isNotEmpty) ...[
+                  _SectionHeader(label: 'CHARACTERISTICS', color: color),
+                  const SizedBox(height: 8),
+                  _CharacteristicsCard(variety: variety, color: color),
+                  const SizedBox(height: 16),
+                ],
+
+                // ── POD PHOTOS ─────────────────────────────────────────
+                _SectionHeader(label: 'POD PHOTOS', color: color),
+                const SizedBox(height: 8),
+                PodImageGallery(
+                  varietyId: variety.id,
+                  accentColor: color,
+                ),
                 const SizedBox(height: 16),
 
                 // ── AVERAGE POD INDEX ──────────────────────────────────
@@ -165,35 +204,6 @@ class ResultScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 _ResistanceCard(variety: variety, color: color),
                 const SizedBox(height: 16),
-
-                // ── CHARACTERISTICS ────────────────────────────────────
-                if (variety.characteristics.isNotEmpty) ...[
-                  _SectionHeader(label: 'CHARACTERISTICS', color: color),
-                  const SizedBox(height: 8),
-                  _CharacteristicsCard(variety: variety, color: color),
-                  const SizedBox(height: 16),
-                ],
-
-                // ── CONFIDENCE SCORES ──────────────────────────────────
-                _SectionHeader(label: 'CONFIDENCE SCORES', color: color),
-                const SizedBox(height: 8),
-                _ConfidenceCard(
-                  allConfidences: top.allConfidences,
-                  topClassId: top.classId,
-                ),
-                const SizedBox(height: 16),
-
-                // ── ABOUT ──────────────────────────────────────────────
-                _SectionHeader(label: 'ABOUT THIS CLONE', color: color),
-                const SizedBox(height: 8),
-                _InfoCard(
-                  child: Text(variety.description,
-                      style: GoogleFonts.inter(
-                          fontSize: 13,
-                          color: KakaWiseTheme.textPrimary,
-                          height: 1.6)),
-                ),
-                const SizedBox(height: 20),
 
                 // Owner
                 _InfoCard(
@@ -510,7 +520,6 @@ class _PodMeasurementsCard extends StatelessWidget {
 
     return _InfoCard(
       child: Column(children: [
-        // Length + Width as big numbers
         Row(children: [
           Expanded(child: _BigStat(
             label: 'Avg. Pod Length',
