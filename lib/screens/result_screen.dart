@@ -510,7 +510,6 @@ class _PodMeasurementsCard extends StatelessWidget {
 
     return _InfoCard(
       child: Column(children: [
-        // Length + Width as big numbers
         Row(children: [
           Expanded(child: _BigStat(
             label: 'Avg. Pod Length',

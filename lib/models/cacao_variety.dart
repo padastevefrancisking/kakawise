@@ -1,7 +1,6 @@
 // lib/models/cacao_variety.dart
 
 import 'dart:ui';
-
 import '../theme.dart';
 
 class CacaoVariety {
