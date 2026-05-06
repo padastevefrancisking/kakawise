@@ -93,7 +93,7 @@ class _ScanScreenState extends State<ScanScreen> {
         _renderedOverlay = rendered;
         _loading = false;
       });
-    } catch (e, st) {
+    } catch (e) {
       setState(() { _error = e.toString(); _loading = false; });
     }
   }
